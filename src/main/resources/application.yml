@@ -1,0 +1,40 @@
+server:
+  tomcat:
+    max-threads: 50
+    uri-encoding: UTF-8
+  compression:
+    enabled: true
+    mime-types: application/json,application/javascript,text/html,text/xml,text/plain,text/css
+  port: 8888
+
+#激活配置文件
+spring.profiles.active: development
+
+#thymeleaf
+spring.thymeleaf:
+   cache: false # Enable template caching.
+   check-template-location: true # Check that the templates location exists.
+   content-type: text/html # Content-Type value.
+   enabled: true # Enable MVC Thymeleaf view resolution.
+   encoding: UTF-8 # Template encoding.
+   mode: LEGACYHTML5 # Template mode to be applied to templates. See also StandardTemplateModeHandlers.
+   prefix: "classpath:/pages/" # Prefix that gets prepended to view names when building a URL.
+   suffix: ".html"  # Suffix that gets appended to view names when building a URL.
+
+#logging.level.tech.washmore.family.dao: debug
+
+spring:
+  datasource:
+    tomcat:
+      driver-class-name: com.mysql.jdbc.Driver
+      max-idle: 10
+      min-idle: 5
+      initial-size: 5
+      max-wait: 15
+      max-active: 10
+      validationQuery: SELECT 1;
+      testOnBorrow: true
+      #url: 数据库连接
+      #username: 数据库帐号
+      #password: 数据库密码
+

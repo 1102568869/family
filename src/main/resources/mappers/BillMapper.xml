@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BillMapper">
+    <select id="findBillsByParams" resultType="bill" parameterType="hashmap">
+        SELECT * FROM bill
+        <where>
+            <if test="id != null">
+                AND id = #{id}
+            </if>
+        </where>
+    </select>
+    <insert id="addBill" parameterType="bill">
+        INSERT INTO bill (name, type, money, balance, member, recordtime, comment)
+        VALUES (#{name}, #{type}, #{money}, #{balance}, #{member}, #{recordtime}, #{comment})
+    </insert>
+    <update id="updateBill" parameterType="bill">
+        UPDATE bill
+        SET name       = #{name}, type = #{type}, money = #{money},
+            balance    = #{balance}, member = #{member},
+            recordtime = #{recordtime}, comment = #{comment}
+        WHERE id = #{id};
+    </update>
+    <select id="findBillViewsByParams" resultType="billView" parameterType="hashmap">
+        SELECT b.*,m.name AS memberName,t.name AS typeName FROM bill b
+        LEFT JOIN familymember m ON b.member = m.id
+        LEFT JOIN billtype t ON b.type = t.id
+        <where>
+            <if test="id != null">
+                AND b.id = #{id}
+            </if>
+        </where>
+    </select>
+</mapper>
