@@ -18,8 +18,11 @@
         SET name       = #{name}, type = #{type}, money = #{money},
             balance    = #{balance}, member = #{member},
             recordtime = #{recordtime}, comment = #{comment}
-        WHERE id = #{id};
+        WHERE id = #{id}
     </update>
+    <delete id="deleteBill" parameterType="hashmap">
+        DELETE FROM bill WHERE id = #{id}
+    </delete>
     <select id="findBillViewsByParams" resultType="billView" parameterType="hashmap">
         SELECT b.*,m.name AS memberName,t.name AS typeName FROM bill b
         LEFT JOIN familymember m ON b.member = m.id

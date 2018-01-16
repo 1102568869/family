@@ -30,10 +30,11 @@ spring:
       max-idle: 10
       min-idle: 5
       initial-size: 5
-      max-wait: 15
+      max-wait: 30
       max-active: 10
       validationQuery: SELECT 1;
       testOnBorrow: true
+      test-while-idle: true
       #url: 数据库连接
       #username: 数据库帐号
       #password: 数据库密码

@@ -1,5 +1,6 @@
 package tech.washmore.family.dao;
 
+import com.google.common.collect.ImmutableMap;
 import org.springframework.stereotype.Repository;
 import tech.washmore.family.model.Bill;
 import tech.washmore.family.model.view.BillView;
@@ -24,5 +25,9 @@ public class BillDao extends BaseDao {
 
     public int updateBill(Bill bill) {
         return super.getSqlSession().update("updateBill", bill);
+    }
+
+    public int deleteBill(int id) {
+        return super.getSqlSession().update("deleteBill", ImmutableMap.of("id", id));
     }
 }

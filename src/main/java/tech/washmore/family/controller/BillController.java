@@ -37,7 +37,7 @@ public class BillController {
     private BillService billService;
 
     @PostMapping("/post/add")
-    private boolean add(@Validated @RequestBody Bill bill, BindingResult result) {
+    public boolean add(@Validated @RequestBody Bill bill, BindingResult result) {
         if (result.hasErrors()) {
             throw new IllegalArgumentException(String.join(",", result.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.toList())));
         }
@@ -46,25 +46,31 @@ public class BillController {
     }
 
     @PostMapping("/post/update")
-    private boolean update(@Validated @RequestBody Bill bill, BindingResult result) {
+    public boolean update(@Validated @RequestBody Bill bill, BindingResult result) {
         if (result.hasErrors()) {
             throw new IllegalArgumentException(String.join(",", result.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.toList())));
         }
         return billService.updateBill(bill);
     }
 
+    @PostMapping("/post/delete")
+    public boolean delete(@RequestParam int id) {
+        boolean result = billService.deleteBill(id);
+        return result;
+    }
+
     @GetMapping("/get/page")
-    private Page<BillView> getPage(@RequestParam(defaultValue = "10") int pageSize, @RequestParam(defaultValue = "1") int pageNo) {
+    public Page<BillView> getPage(@RequestParam(defaultValue = "10") int pageSize, @RequestParam(defaultValue = "1") int pageNo) {
         return PageUtil.fillPage(billService.getAllBillViews(), pageSize, pageNo);
     }
 
     @GetMapping("/get/item")
-    private BillView getBillView(@RequestParam int id) {
+    public BillView getBillView(@RequestParam int id) {
         return billService.getBillViewById(id);
     }
 
     @GetMapping("/get/balanceTypes")
-    private List getBalanceTypes() {
+    public List getBalanceTypes() {
         return Stream.of(BalanceType.values()).map(t -> {
             Map<String, Object> balanceTypeMap = new HashMap<>();
             balanceTypeMap.put("name", t.getName());

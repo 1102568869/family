@@ -10,10 +10,10 @@
 
 <script>
     /*eslint-disable*/
-    import axios from "axios";
     import ElForm from "element-ui/packages/form/src/form";
 
     import BillForm from "@/components/bill/BillForm";
+    import {ajaxGet, ajaxPost} from "@/common/httpUtil";
 
 
     export default {

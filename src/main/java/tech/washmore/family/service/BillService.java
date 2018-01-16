@@ -20,6 +20,8 @@ public class BillService {
     private GetBillViewByIdLogic getBillViewByIdLogic;
     @Autowired
     private UpdateBillLogic updateBillLogic;
+    @Autowired
+    private DeleteBillLogic deleteBillLogic;
 
     public boolean addBill(Bill bill) {
         return addBillLogic.addBill(bill);
@@ -40,5 +42,9 @@ public class BillService {
 
     public boolean updateBill(Bill bill) {
         return updateBillLogic.updateBill(bill);
+    }
+
+    public boolean deleteBill(int id) {
+        return deleteBillLogic.deleteBill(id);
     }
 }
