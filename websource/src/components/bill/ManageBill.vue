@@ -2,6 +2,7 @@
     <div class="manageBill">
         <el-table v-loading="loading"
                   :data="page.list"
+                  stripe
                   style="width: 100%">
             <el-table-column
                     prop="memberName"
@@ -31,7 +32,6 @@
             </el-table-column>
             <el-table-column
                     prop="recordtime"
-                    :formatter="formatDate"
                     label="经手日期"
                     width="180">
             </el-table-column>
@@ -69,14 +69,14 @@
     import ElForm from "element-ui/packages/form/src/form";
     // import Common from '@/components/Common';
 
-    import {formatDate} from "../common/commonUtil";
+    import {formatDate} from "@/common/commonUtil";
+    import {ajaxGet} from "@/common/httpUtil";
 
     export default {
         components: {ElForm},
         name: 'addBill',
         created() {
             this.searchPage();
-            console.info("页面初始化完成!");
         },
         data() {
             return {
@@ -101,33 +101,19 @@
                 this.searchPage();
             },
             searchPage() {
-                var vm = this;
-                vm.loading = true;
-                console.info(vm.params.pageSize);
-                console.info(vm.params.pageNo);
-                axios.get('http://localhost:8888/bill/get/page?pageSize=' + vm.params.pageSize + '&pageNo=' + vm.params.pageNo)
-                    .then(function (response) {
-                        vm.page = response.data
-                        console.info(vm.page);
-                        vm.loading = false;
-                    })
-                    .catch(function (error) {
-                        console.error("请求API失败!");
-                        vm.loading = false;
-                    })
-            },
-            onSubmit() {
-
-            },
-            formatDate(row, column, cellValue) {
-                return formatDate(new Date(cellValue));
+                this.loading = true;
+                ajaxGet('http://localhost:8888/bill/get/page?pageSize=' + this.params.pageSize + '&pageNo=' + this.params.pageNo, (data) => {
+                    this.page = data;
+                    this.loading = false;
+                }, (e) => {
+                    console.error("请求API失败!", e);
+                    this.loading = false;
+                });
             },
             formatMoney(row, column, cellValue) {
-                console.info(row, column, cellValue);
-                return Math.abs(cellValue);
+                return cellValue;
             },
             formatComment(comment) {
-                //let comment = row.comment;
                 return comment != null ? comment.replace(/\n/g, '<br/>') : '';
             },
             editBill(id) {

@@ -16,7 +16,7 @@
 
       <el-container>
         <el-aside width="200px">
-          <el-menu :default-openeds="['1','3']">
+          <el-menu :default-openeds="['1','2']">
             <el-submenu index="1">
               <template slot="title"><i class="el-icon-message"></i>账单管理</template>
               <router-link to="/bill/add">
@@ -29,8 +29,9 @@
               <el-menu-item index="1-3">草稿箱</el-menu-item>
             </el-submenu>
             <el-submenu index="2">
-              <template slot="title"><i class="el-icon-message"></i>评论</template>
-              <el-menu-item index="2-1">管理评论</el-menu-item>
+              <template slot="title"><i class="el-icon-setting"></i>资料维护</template>
+              <el-menu-item index="2-1">成员信息</el-menu-item>
+              <el-menu-item index="2-2">账单类型</el-menu-item>
             </el-submenu>
             <el-submenu index="3">
               <template slot="title"><i class="el-icon-message"></i>demo</template>

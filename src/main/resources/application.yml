@@ -38,3 +38,4 @@ spring:
       #username: 数据库帐号
       #password: 数据库密码
 
+spring.http.converters.preferred-json-mapper: fastjson

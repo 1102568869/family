@@ -1,12 +1,9 @@
 package tech.washmore.family.model;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.constraints.Range;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
 import java.util.Date;
 
 public class Bill {
@@ -21,6 +18,7 @@ public class Bill {
     @NotNull(message = "需要选择经手人")
     private Integer member;
     @NotNull(message = "需要选择经手时间")
+    @JSONField(format = "yyyy/MM/dd HH:mm:ss")
     private Date recordtime;
     private String comment;
     @NotNull(message = "需要选择收支类型")
