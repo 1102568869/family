@@ -8,3 +8,4 @@ logs/
 src/main/resources/application.properties
 /src/main/resources/pages/
 /websource/node_modules/
+!/src/main/resources/pages/login.html

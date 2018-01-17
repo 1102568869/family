@@ -4,9 +4,11 @@ import AddBill from '@/components/bill/AddBill'
 import ManageBill from '@/components/bill/ManageBill'
 import EditBill from '@/components/bill/EditBill'
 
-Vue.use(Router)
+import {getCookie} from '@/common/commonUtil'
+import {ajaxGet, ajaxPost} from "@/common/httpUtil";
 
-export default new Router({
+Vue.use(Router)
+const router = new Router({
     routes: [
         {
             path: '/',
@@ -30,3 +32,18 @@ export default new Router({
         }
     ]
 })
+export default router;
+
+// router.beforeEach((to, from, next) => {
+//     if (getCookie("family_token") != null) {
+//         console.info("checkLogin", true);
+//         next();
+//     }else{
+//         console.info("checkLogin", false);
+//         console.info("location", location.href, location.protocol, location.hostname, location.port);
+//         window.top.location.href = location.protocol + "//" + location.hostname + ":8888/toLogin";
+//     }
+//
+// })
+
+

@@ -56,21 +56,35 @@
             },
             onSubmit(formName) {
                 var vm = this;
+                if (vm.isSubmitting) {
+                    vm.$message.warning('请勿重复提交!!!');
+                    return false;
+                }
+                vm.isSubmitting = true;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         ajaxPost('http://localhost:8888/bill/post/add', this.bill, (result) => {
                             if (!!result) {
-                                this.$message({
+                                vm.$message({
                                     message: '账单添加成功!',
-                                    type: 'success'
+                                    type: 'success',
+                                    onClose: function (msg) {
+                                        vm.$router.push({name: 'manageBill'});
+                                    }
                                 });
                             } else {
                                 this.$message.error('提交账单失败!');
+                                vm.isSubmitting = false;
                             }
-                        }, (e) => this.$message.error('提交账单失败!'));
+                        }, (e) => {
+                            this.$message.error('提交账单失败!');
+                            vm.isSubmitting = false;
+
+                        });
 
                     } else {
                         console.log('error submit!!');
+                        vm.isSubmitting = false;
                         return false;
                     }
                 });

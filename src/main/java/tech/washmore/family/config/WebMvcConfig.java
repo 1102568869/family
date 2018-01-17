@@ -1,5 +1,6 @@
 package tech.washmore.family.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -7,8 +8,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.CacheControl;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import tech.washmore.family.common.interceptor.LoginInterceptor;
 
 import java.time.LocalDate;
 import java.util.concurrent.TimeUnit;
@@ -24,7 +27,7 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:8080","http://*.washmore.tech:*","http://*.washmoretech.com:*")
+                .allowedOrigins("http://localhost:8080", "http://*.washmore.tech:*", "http://*.washmoretech.com:*")
                 .allowCredentials(true)
                 .allowedMethods("GET", "POST", "DELETE", "PUT")
                 .maxAge(3600);
@@ -36,4 +39,15 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         registry.addResourceHandler("/**").addResourceLocations("classpath:/pages/");//.setCacheControl(cacheControl);
     }
 
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+      //  registry.addInterceptor(loginInterceptor()).addPathPatterns("/**").excludePathPatterns("/", "", "/login","/toLogin");
+        super.addInterceptors(registry);
+    }
+
+    @Bean
+    public LoginInterceptor loginInterceptor() {
+        return new LoginInterceptor();
+    }
 }

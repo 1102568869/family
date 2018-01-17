@@ -58,6 +58,7 @@
     </root>
     <springProfile name="development">
         <logger name="tech.washmore.family" level="DEBUG"/>
+        <logger name="dao" level="DEBUG"/>
     </springProfile>
 
 </configuration>

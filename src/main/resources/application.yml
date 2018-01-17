@@ -21,7 +21,9 @@ spring.thymeleaf:
    prefix: "classpath:/pages/" # Prefix that gets prepended to view names when building a URL.
    suffix: ".html"  # Suffix that gets appended to view names when building a URL.
 
-#logging.level.tech.washmore.family.dao: debug
+spring.http.converters.preferred-json-mapper: fastjson
+# 等同logback-spring.xml里面的配置
+logging.level.org.apache.ibatis: debug
 
 spring:
   datasource:
@@ -39,4 +41,3 @@ spring:
       #username: 数据库帐号
       #password: 数据库密码
 
-spring.http.converters.preferred-json-mapper: fastjson

@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import tech.washmore.family.common.SpringBootVFS;
 
 import javax.sql.DataSource;
 import java.io.IOException;
@@ -20,15 +21,6 @@ import java.io.IOException;
 @Configuration
 public class DataSourceConfig {
 
-    /**
-     * @return DataSource
-     */
-    @Primary
-    @Bean(name = "dataSource")
-    @ConfigurationProperties(prefix = "spring.datasource.tomcat")
-    public DataSource dataSource() {
-        return DataSourceBuilder.create().build();
-    }
 
     /**
      * @return SqlSessionFactoryBean
@@ -39,6 +31,9 @@ public class DataSourceConfig {
         //      DataSource dataSource = context.getBean(DataSource.class);
         SqlSessionFactoryBean factory = new SqlSessionFactoryBean();
         factory.setDataSource(dataSource);
+
+        factory.setVfs(SpringBootVFS.class);
+
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         factory.setConfigLocation(resolver.getResource("config/mybatis-config.xml"));
         try {
@@ -47,6 +42,17 @@ public class DataSourceConfig {
             e.printStackTrace();
         }
         return factory;
+    }
+
+
+    /**
+     * @return DataSource
+     */
+    @Primary
+    @Bean(name = "dataSource")
+    @ConfigurationProperties(prefix = "spring.datasource.tomcat")
+    public DataSource dataSource() {
+        return DataSourceBuilder.create().build();
     }
 
     /**
@@ -59,5 +65,4 @@ public class DataSourceConfig {
         DataSourceTransactionManager manager = new DataSourceTransactionManager(dataSource);
         return manager;
     }
-
 }

@@ -1,7 +1,10 @@
 package tech.washmore.family.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tech.washmore.family.logic.*;
 import tech.washmore.family.model.Bill;
 import tech.washmore.family.model.view.BillView;
@@ -10,6 +13,7 @@ import java.util.List;
 
 @Service
 public class BillService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BillService.class);
     @Autowired
     private AddBillLogic addBillLogic;
     @Autowired
