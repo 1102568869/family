@@ -38,12 +38,14 @@ public class MemeryTokenManger {
     public Familymember getLoginMemberByToken(String token) {
         LoginFamilyMember loginFamilyMember = loginMembers.get(token);
         if (loginFamilyMember == null) {
+            CookieUtil.removeCookie(token);
             LOGGER.info("MemeryTokenManger-getLoginMemberByToken:token[{}]不存在!", token);
             return null;
         }
         long current = System.currentTimeMillis();
         if (current > loginFamilyMember.getExpire()) {
             loginMembers.remove(loginFamilyMember);
+            CookieUtil.removeCookie(token);
             LOGGER.info("MemeryTokenManger-getLoginMemberByToken:token[{}]已过期,被移除!对应成员[{}]", token, loginFamilyMember.getName());
             return null;
         }

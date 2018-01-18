@@ -19,7 +19,7 @@
         INSERT INTO family.familymember
         (account, name, password, mobile, email,
          qq, creator, creatAt, updater, updateAt, image)
-        VALUES (#{account}, #{name}, #{password}, #{mobile}, #{email},
+        VALUES (#{account}, #{name}, password(#{password}), #{mobile}, #{email},
                             #{qq}, #{creator}, #{creatAt}, #{updater}, #{updateAt}, #{image})
     </insert>
 </mapper>

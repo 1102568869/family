@@ -32,8 +32,8 @@ public class LoginController {
     }
 
     @GetMapping({"/verifyToken"})
-    public Familymember login(HttpServletRequest request) throws Exception {
-        Cookie token = CookieUtil.getCookieByName(request, Constants.COOKIE_TOKEN_KEY);
+    public Familymember login() throws Exception {
+        Cookie token = CookieUtil.getCurrentCookieByName(Constants.COOKIE_TOKEN_KEY);
         return memeryTokenManger.getLoginMemberByToken(token.getValue());
     }
 }
