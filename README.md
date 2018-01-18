@@ -13,6 +13,8 @@ git clone --depth 1 https://github.com/1102568869/family.git
 
 # create database family and run sql/init.sql to create tables;
 
+#replace url/username/password with your database config in application.yml;
+
 # change directory to websource
 cd family/websource
 
