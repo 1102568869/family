@@ -22,19 +22,4 @@ public class WelcomeController {
     public String welcome() {
         return "/index";
     }
-
-    @PostMapping({"/login"})
-    public void login(@RequestBody Familymember familymember, HttpServletResponse response) throws Exception {
-        String token = memeryTokenManger.createToken(familymember.getAccount(), familymember.getPassword());
-        if (token != null) {
-            CookieUtil.addCookie(response, Constants.COOKIE_TOKEN_KEY, token, 7200);
-        }
-        response.sendRedirect("/");
-    }
-
-    @GetMapping({"/toLogin"})
-    public ModelAndView toLogin(ModelAndView modelAndView) {
-        modelAndView.setViewName("/login");
-        return modelAndView;
-    }
 }

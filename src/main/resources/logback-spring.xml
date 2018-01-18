@@ -3,6 +3,7 @@
     <property name="log_pattern"
               value="%date{yyyy-MM-dd HH:mm:ss} [%thread] | %-5level | %logger{36} [%line] | - %msg%n"/>
     <!--<property name="log_pattern"  value="%date{yyyy-MM-dd HH:mm:ss} [%thread] | %-5level | %logger{36} [%line] | - %msg%n"/>-->
+    <property name="logDir" value="./logs"/>
 
     <springProperty scope="local" name="applicationName" source="spring.application.name"/>
 
@@ -13,7 +14,6 @@
             <pattern>${log_pattern}</pattern>
         </encoder>
     </appender>
-    <property name="logDir" value="./logs"/>
     <appender name="INFO" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- encoder 默认配置为PatternLayoutEncoder -->
         <encoder>
@@ -21,6 +21,21 @@
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${logDir}/%d{YYYYMMdd}/infoLog.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>NEUTRAL</onMismatch>
+        </filter>
+    </appender>
+    <appender name="TOKEN" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- encoder 默认配置为PatternLayoutEncoder -->
+        <encoder>
+            <pattern>${log_pattern}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logDir}/%d{YYYYMMdd}/tokenLog.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
@@ -59,6 +74,10 @@
     <springProfile name="development">
         <logger name="tech.washmore.family" level="DEBUG"/>
         <logger name="dao" level="DEBUG"/>
+        <logger name="tech.washmore.family.common.uc.MemeryTokenManger" level="INFO" additivity="false">
+            <appender-ref ref="TOKEN"/>
+            <appender-ref ref="STDOUT"/>
+        </logger>
     </springProfile>
 
 </configuration>

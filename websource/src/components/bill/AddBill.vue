@@ -1,11 +1,14 @@
 <template>
-    <el-form :model="bill" :rules="rules" ref="billForm" label-width="100px" style="width: 600px">
-        <bill-form :bill="bill"></bill-form>
-        <el-form-item>
-            <el-button type="primary" @click="onSubmit('billForm')">立即创建</el-button>
-            <el-button @click="resetFrom('billForm')">重置内容</el-button>
-        </el-form-item>
-    </el-form>
+    <div id="add">
+        <el-form :model="bill" :rules="rules" ref="billForm" label-width="100px" style="width: 600px">
+            <bill-form :bill="bill"></bill-form>
+            <el-form-item>
+                <el-button type="primary" @click="onSubmit('billForm')">立即创建</el-button>
+                <el-button @click="resetFrom('billForm')">重置内容</el-button>
+            </el-form-item>
+        </el-form>
+    </div>
+
 </template>
 
 <script>
@@ -61,23 +64,23 @@
                     return false;
                 }
                 vm.isSubmitting = true;
-                this.$refs[formName].validate((valid) => {
+                vm.$refs[formName].validate((valid) => {
                     if (valid) {
-                        ajaxPost('http://localhost:8888/bill/post/add', this.bill, (result) => {
+                        ajaxPost('/bill/post/add', this.bill, (result) => {
                             if (!!result) {
                                 vm.$message({
                                     message: '账单添加成功!',
                                     type: 'success',
                                     onClose: function (msg) {
-                                        vm.$router.push({name: 'manageBill'});
+                                        vm.$router.push({name: 'bill'});
                                     }
                                 });
                             } else {
-                                this.$message.error('提交账单失败!');
+                                vm.$message.error('提交账单失败!');
                                 vm.isSubmitting = false;
                             }
                         }, (e) => {
-                            this.$message.error('提交账单失败!');
+                            vm.$message.error('提交账单失败!');
                             vm.isSubmitting = false;
 
                         });

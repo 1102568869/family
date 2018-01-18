@@ -1,8 +1,8 @@
 package tech.washmore.family;
 
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @author Washmore
@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @since 2017/6/13
  */
 @SpringBootApplication
+@EnableScheduling
 public class FamilyStarter {
 
     public static void main(String[] args) {

@@ -1,21 +1,33 @@
 package tech.washmore.family.model;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 import java.util.Date;
 
 public class Familymember {
-
     private Integer id;
+    @NotBlank(message = "账号不能为空")
     private String account;
+    @NotBlank(message = "姓名不能为空")
     private String name;
+    @NotBlank(message = "密码不能为空")
     private String password;
     private String mobile;
     private String email;
     private String qq;
+    private String image;
     private String creator;
     private Date creatAt;
     private String updater;
     private Date updateAt;
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public Integer getId() {
         return id;

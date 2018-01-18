@@ -2,11 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="FamilymemberMapper">
     <select id="findFamilymembersByParams" resultType="familymember" parameterType="hashmap">
-        SELECT * FROM familymember
+        SELECT id, account, name, mobile, email, qq, image FROM familymember
         <where>
-            <if test="id != null">
+            <if test="@Ognl@isNotEmpty(id)">
                 AND id = #{id}
+            </if>
+            <if test="@Ognl@isNotEmpty(account)">
+                AND account = #{account}
+            </if>
+            <if test="@Ognl@isNotEmpty(password)">
+                AND password = password(#{password})
             </if>
         </where>
     </select>
+    <insert id="addFamilymember" parameterType="familymember">
+        INSERT INTO family.familymember
+        (account, name, password, mobile, email,
+         qq, creator, creatAt, updater, updateAt, image)
+        VALUES (#{account}, #{name}, #{password}, #{mobile}, #{email},
+                            #{qq}, #{creator}, #{creatAt}, #{updater}, #{updateAt}, #{image})
+    </insert>
 </mapper>

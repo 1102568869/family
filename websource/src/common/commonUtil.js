@@ -47,6 +47,7 @@ export function setCookie(name, value, expires, domain, path, secure) {
 // name=value; expires=expiration_time; path=domain_path; domain=domain_name; secure
 // 获取cookie
 export function getCookie(name) {
+    console.info(document.cookie);
     var cookieName = encodeURIComponent(name) + "=",
         cookieStart = document.cookie.indexOf(cookieName),
         cookieValue = "";
@@ -62,5 +63,5 @@ export function getCookie(name) {
 
 // 删除cookie
 export function removeCookie(name, domain, path, secure) {
-    this.set(name, "", Date(0), domain, path, secure);
+    setCookie(name, "", Date(0), domain, path, secure);
 };

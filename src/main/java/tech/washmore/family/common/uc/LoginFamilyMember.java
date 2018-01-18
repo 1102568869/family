@@ -11,6 +11,7 @@ import tech.washmore.family.model.Familymember;
  */
 public class LoginFamilyMember extends Familymember {
     private long expire;
+    private String token;
 
     public LoginFamilyMember() {
     }
@@ -22,6 +23,14 @@ public class LoginFamilyMember extends Familymember {
         this.setMobile(familymember.getMobile());
         this.setEmail(familymember.getEmail());
         this.setQq(familymember.getQq());
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public long getExpire() {

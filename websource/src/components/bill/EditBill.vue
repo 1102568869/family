@@ -62,13 +62,13 @@
                 vm.isSubmitting = true;
                 vm.$refs[formName].validate((valid) => {
                     if (valid) {
-                        ajaxPost('http://localhost:8888/bill/post/update', vm.bill, (result) => {
+                        ajaxPost('/bill/post/update', vm.bill, (result) => {
                             if (!!result) {
                                 vm.$message({
                                     message: '账单更新成功!',
                                     type: 'success',
                                     onClose: function (msg) {
-                                        vm.$router.push({name: 'manageBill', params: {"currentPage": vm.currentPage}});
+                                        vm.$router.push({name: 'bill'});
                                     }
                                 });
                             } else {
@@ -93,16 +93,14 @@
             // 因为当守卫执行前，组件实例还没被创建
             next((vm) => {
                 let id = vm.$route.params.id;
-                vm.currentPage = vm.$route.params.currentPage;
-                ajaxGet('http://localhost:8888/bill/get/item?id=' + id, (data) => vm.bill = data)
+                ajaxGet('/bill/get/item?id=' + id, (data) => vm.bill = data)
             });
         },
         beforeRouteUpdate(to, from, next) {
             // react to route changes...
             // don't forget to call next()
             let id = to.params.id;
-            this.currentPage = to.params.currentPage;
-            ajaxGet('http://localhost:8888/bill/get/item?id=' + id, (data) => this.bill = data);
+            ajaxGet('/bill/get/item?id=' + id, (data) => this.bill = data);
             next();
         }
     }

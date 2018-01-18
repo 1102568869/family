@@ -44,7 +44,7 @@ public class LoginInterceptor extends BaseInterceptor implements HandlerIntercep
 
             //TODO 挤掉当前成员在其他客户端的登陆
 
-
+            //response.setHeader("Access-Control-Allow-Credentials", "true");
             LOGGER.info("--request:[{}],ip:[{}],userName:[{}],userAccount:[{}]", request.getRequestURI(), request.getRemoteAddr(), loginFamilyMember.getName(), loginFamilyMember.getAccount());
             return true;
         }

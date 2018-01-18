@@ -66,7 +66,6 @@
             this.getTypes();
             this.getMmebers();
             this.getBalanceTypes();
-            console.info("页面初始化完成!");
         },
         data() {
             return {
@@ -77,13 +76,13 @@
         },
         methods: {
             getTypes() {
-                ajaxGet('http://localhost:8888/billtype/get/all', (data) => this.types = data);
+                ajaxGet('/billtype/get/all', (data) => this.types = data);
             },
             getMmebers() {
-                ajaxGet('http://localhost:8888/familymember/get/all', (data) => this.members = data);
+                ajaxGet('/familymember/get/all', (data) => this.members = data);
             },
             getBalanceTypes() {
-                ajaxGet('http://localhost:8888/bill/get/balanceTypes', (data) => this.balanceTypes = data);
+                ajaxGet('/bill/get/balanceTypes', (data) => this.balanceTypes = data);
             }
         }
     }

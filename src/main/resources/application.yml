@@ -18,7 +18,7 @@ spring.thymeleaf:
    enabled: true # Enable MVC Thymeleaf view resolution.
    encoding: UTF-8 # Template encoding.
    mode: LEGACYHTML5 # Template mode to be applied to templates. See also StandardTemplateModeHandlers.
-   prefix: "classpath:/pages/" # Prefix that gets prepended to view names when building a URL.
+   prefix: "classpath:/pages" # Prefix that gets prepended to view names when building a URL.
    suffix: ".html"  # Suffix that gets appended to view names when building a URL.
 
 spring.http.converters.preferred-json-mapper: fastjson

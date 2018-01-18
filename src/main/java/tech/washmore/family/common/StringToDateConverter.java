@@ -31,8 +31,8 @@ public class StringToDateConverter implements Converter<String, Date> {
 
     static {
         formators = new ArrayList<>();
-        formators.add(new SimpleDateFormat("yyyy/MM/dd"));
-        formators.add(new SimpleDateFormat("yyyy-MM-dd"));
+        formators.add(new SimpleDateFormat("yyyy/MM/dd HH:mm:ss"));
+        formators.add(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"));
     }
 
     /**

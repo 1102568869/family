@@ -4,7 +4,7 @@
     <select id="findBilltypesByParams" resultType="billtype" parameterType="hashmap">
         SELECT * FROM billtype
         <where>
-            <if test="id != null">
+            <if test="@Ognl@isNotEmpty(id)">
                 AND id = #{id}
             </if>
         </where>

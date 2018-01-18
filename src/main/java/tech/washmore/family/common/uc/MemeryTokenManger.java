@@ -1,6 +1,9 @@
 package tech.washmore.family.common.uc;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import tech.washmore.family.logic.GetAllFamilymembersLogic;
 import tech.washmore.family.logic.GetFamilymemberByAccountAndPasswordLogic;
@@ -9,9 +12,12 @@ import tech.washmore.family.service.FamilymemberService;
 import tech.washmore.family.utils.CookieUtil;
 
 import javax.servlet.http.Cookie;
+import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * @author Washmore
@@ -22,34 +28,51 @@ import java.util.UUID;
  */
 @Component
 public class MemeryTokenManger {
+    private static final Logger LOGGER = LoggerFactory.getLogger(MemeryTokenManger.class);
+    private static final Map<String, LoginFamilyMember> loginMembers = new HashMap<>();
+    private static final long EXPIRE_HALF_HOUR = 30L * 60 * 1000;
+
     @Autowired
     private GetFamilymemberByAccountAndPasswordLogic getFamilymemberByAccountAndPasswordLogic;
-    private static final Map<String, LoginFamilyMember> loginMembers = new HashMap<>();
-    private static final long EXPIRE_TWO_HOURS = 2L * 60 * 60 * 1000;
 
     public Familymember getLoginMemberByToken(String token) {
         LoginFamilyMember loginFamilyMember = loginMembers.get(token);
         if (loginFamilyMember == null) {
+            LOGGER.info("MemeryTokenManger-getLoginMemberByToken:token[{}]不存在!", token);
             return null;
         }
         long current = System.currentTimeMillis();
         if (current > loginFamilyMember.getExpire()) {
             loginMembers.remove(loginFamilyMember);
+            LOGGER.info("MemeryTokenManger-getLoginMemberByToken:token[{}]已过期,被移除!对应成员[{}]", token, loginFamilyMember.getName());
             return null;
         }
-        loginFamilyMember.setExpire(current + EXPIRE_TWO_HOURS);
+        loginFamilyMember.setExpire(current + EXPIRE_HALF_HOUR);
+        LOGGER.info("MemeryTokenManger-getLoginMemberByToken:token[{}]验证通过,续期半小时!对应成员[{}]", token, loginFamilyMember.getName());
         return loginFamilyMember;
     }
 
     public String createToken(String account, String password) {
         Familymember familymember = getFamilymemberByAccountAndPasswordLogic.getFamilymemberByAccountAndPassword(account, password);
         if (familymember == null) {
+            LOGGER.info("MemeryTokenManger-createToken:account[{}],password[{}]验证失败!", account, password);
             return null;
         }
         LoginFamilyMember loginFamilyMember = new LoginFamilyMember(familymember);
-        loginFamilyMember.setExpire(System.currentTimeMillis() + EXPIRE_TWO_HOURS);
         String token = UUID.randomUUID().toString();
+
+        loginFamilyMember.setExpire(System.currentTimeMillis() + EXPIRE_HALF_HOUR);
+        loginFamilyMember.setToken(token);
+        LOGGER.info("MemeryTokenManger-createToken:account[{}],password[{}]成功创建token[{}]!对应成员[{}]", account, password, token, loginFamilyMember.getName());
         loginMembers.put(token, loginFamilyMember);
         return token;
+    }
+
+    @Scheduled(cron = "0 0/5 * * * ?")
+    public void checkExpireMembers() {
+        loginMembers.values().stream().filter(m -> System.currentTimeMillis() > m.getExpire()).map(LoginFamilyMember::getToken).collect(Collectors.toList()).forEach(token -> {
+            LOGGER.info("MemeryTokenManger-checkExpireMembers:token[{}]已过期,被移除!对应成员[{}]", token, loginMembers.get(token).getName());
+            loginMembers.remove(token);
+        });
     }
 }
