@@ -18,6 +18,8 @@ cd family/websource
 
 # install the repo with npm
 npm install
+**if failed,change source**
+npm --registry https://registry.npm.taobao.org install
 
 # build by webpack
 npm run build
