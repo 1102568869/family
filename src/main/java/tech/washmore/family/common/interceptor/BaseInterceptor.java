@@ -16,7 +16,7 @@ public abstract class BaseInterceptor {
         response.setContentType(MediaType.APPLICATION_JSON_UTF8.toString());
         response.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
 
-        response.getWriter().print(JSON.toJSONString(ImmutableMap.of("msg", "未授权用户")));
+        response.getWriter().print(JSON.toJSONString(ImmutableMap.of("message", "未授权用户")));
     }
 
     protected void unauthorized(HttpServletResponse response) throws Exception {
@@ -25,7 +25,7 @@ public abstract class BaseInterceptor {
         response.setContentType(MediaType.APPLICATION_JSON_UTF8.toString());
         response.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
 
-        response.getWriter().print(JSON.toJSONString(ImmutableMap.of("msg", "未登录用户")));
+        response.getWriter().print(JSON.toJSONString(ImmutableMap.of("message", "未登录用户")));
     }
 
     protected void errorRequestParamOfLoginUserCode(HttpServletResponse response) throws Exception {
@@ -34,6 +34,6 @@ public abstract class BaseInterceptor {
         response.setContentType(MediaType.APPLICATION_JSON_UTF8.toString());
         response.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
 
-        response.getWriter().print(JSON.toJSONString(ImmutableMap.of("msg", String.format("不允许使用%s或%s关键字作为requestAttribute!", Constants.REQUEST_MEMBER_ACCOUNT, Constants.REQUEST_MEMBER_ID))));
+        response.getWriter().print(JSON.toJSONString(ImmutableMap.of("message", String.format("不允许使用%s或%s关键字作为requestAttribute!", Constants.REQUEST_MEMBER_ACCOUNT, Constants.REQUEST_MEMBER_ID))));
     }
 }

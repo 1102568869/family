@@ -53,11 +53,13 @@
                 balanceTypes: []
             }
         },
-        created(){
+        created() {
         },
         methods: {
             resetFrom(formName) {
                 this.$refs[formName].resetFields();
+                this.isSubmitting = false;
+
             },
             onSubmit(formName) {
                 var vm = this;
@@ -73,6 +75,7 @@
                                 vm.$message({
                                     message: '账单添加成功!',
                                     type: 'success',
+                                    duration: 1000,
                                     onClose: function (msg) {
                                         vm.$router.push({name: 'bill'});
                                     }
@@ -81,10 +84,9 @@
                                 vm.$message.error('提交账单失败!');
                                 vm.isSubmitting = false;
                             }
-                        }, (e) => {
-                            vm.$message.error('提交账单失败!');
+                        }, (msg) => {
+                            vm.$message.error(msg);
                             vm.isSubmitting = false;
-
                         });
 
                     } else {

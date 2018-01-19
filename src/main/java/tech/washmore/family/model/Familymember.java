@@ -10,7 +10,6 @@ public class Familymember {
     private String account;
     @NotBlank(message = "姓名不能为空")
     private String name;
-    @NotBlank(message = "密码不能为空")
     private String password;
     private String mobile;
     private String email;
@@ -126,5 +125,6 @@ public class Familymember {
     public void setUpdateAt(Date updateAt) {
         this.updateAt = updateAt;
     }
+
 
 }

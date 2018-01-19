@@ -1,13 +1,14 @@
 <template>
     <div class="hello">
-        <el-form-item :label="item.label" :prop="item.prop||item.modelName||''" v-for="item in items"
-                      :key="item.modelName">
-            <el-input v-if="item.type=='password'" :placeholder="item.placeholder||'请输入内容'"
-                      v-model="data[item.modelName]"
-                      :auto-complete="item.autoComplete||'off'">
+        <el-form-item :label="item.label" :prop="item.prop||key||''" v-for="(item,key) in items"
+                      :key="key">
+            <el-input v-if="item.type=='password'" type="password" :placeholder="item.placeholder||'请输入内容'"
+                      v-model="data[key]"
+                      :auto-complete="item.autoComplete||'off'" :disabled="item.disabled||false">
             </el-input>
-            <el-input v-else :placeholder="item.placeholder||'请输入内容'" v-model="data[item.modelName]"
-                      :auto-complete="item.autoComplete||'off'">
+            <el-input v-else :placeholder="item.placeholder||'请输入内容'" v-model="data[key]"
+                      :auto-complete="item.autoComplete||'off'"
+                      :disabled="item.disabled&&item.disabled===true?true:false">
             </el-input>
         </el-form-item>
         <!--<el-form-item label="事项" prop="name">-->
@@ -57,7 +58,7 @@
         components: {ElForm},
         props: {
             data: Object,
-            items: Array
+            items: Object
         },
         name: 'formItem',
         componentName: 'FormItem',

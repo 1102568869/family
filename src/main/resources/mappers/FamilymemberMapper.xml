@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="FamilymemberMapper">
     <select id="findFamilymembersByParams" resultType="familymember" parameterType="hashmap">
-        SELECT id, account, name, mobile, email, qq, image FROM familymember
+        SELECT id, account, name, mobile, email, qq, image FROM family.familymember
         <where>
             <if test="@Ognl@isNotEmpty(id)">
                 AND id = #{id}
@@ -19,7 +19,34 @@
         INSERT INTO family.familymember
         (account, name, password, mobile, email,
          qq, creator, creatAt, updater, updateAt, image)
-        VALUES (#{account}, #{name}, password(#{password}), #{mobile}, #{email},
-                            #{qq}, #{creator}, #{creatAt}, #{updater}, #{updateAt}, #{image})
+        VALUES (#{account}, #{name}, password('123456'), #{mobile}, #{email},
+                            #{qq}, #{creator}, now(), #{updater}, now(), #{image})
     </insert>
+    <update id="updateFamilymember" parameterType="familymember">
+        UPDATE family.familymember
+        <set>
+            <if test="@Ognl@isNotEmpty(name)">
+                name = #{name},
+            </if>
+            <if test="@Ognl@isNotEmpty(mobile)">
+                mobile = #{mobile},
+            </if>
+            <if test="@Ognl@isNotEmpty(email)">
+                email = #{email},
+            </if>
+            <if test="@Ognl@isNotEmpty(qq)">
+                qq = #{qq},
+            </if>
+            <if test="@Ognl@isNotEmpty(image)">
+                image = #{image},
+            </if>
+            updateAt = now()
+        </set>
+        WHERE id = #{id}
+    </update>
+    <update id="changePassword" parameterType="familymember">
+        UPDATE family.familymember
+        SET password = password(#{password})
+        WHERE id = #{id}
+    </update>
 </mapper>

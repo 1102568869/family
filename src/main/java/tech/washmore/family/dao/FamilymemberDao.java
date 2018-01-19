@@ -15,4 +15,14 @@ public class FamilymemberDao extends BaseDao {
     public int addFamilymember(Familymember familymember) {
         return super.getSqlSession().insert("addFamilymember", familymember);
     }
+
+    public int updateFamilymember(Familymember familymember) {
+        return super.getSqlSession().update("updateFamilymember", familymember);
+
+    }
+
+    public int changePassword(Familymember familymember) {
+        return super.getSqlSession().update("changePassword", familymember);
+
+    }
 }

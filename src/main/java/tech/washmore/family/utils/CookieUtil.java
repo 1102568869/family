@@ -1,8 +1,6 @@
 package tech.washmore.family.utils;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import tech.washmore.family.common.Constants;
 
 import javax.servlet.http.Cookie;
@@ -43,7 +41,7 @@ public class CookieUtil {
      * @param name cookie名字
      */
     public static void removeCookie(String name) {
-        addCookie(getHttpResponse(), name, StringUtils.EMPTY, 0);
+        addCookie(SessionUtil.getHttpResponse(), name, StringUtils.EMPTY, 0);
     }
 
     /**
@@ -70,7 +68,7 @@ public class CookieUtil {
      * @return
      */
     public static Cookie getCurrentCookieByName(String name) {
-        return getCookieByName(getHttpRequest(), name);
+        return getCookieByName(SessionUtil.getHttpRequest(), name);
     }
 
 
@@ -89,27 +87,5 @@ public class CookieUtil {
             }
         }
         return cookieMap;
-    }
-
-    /**
-     * 获取当前请求的request
-     *
-     * @return request
-     * @author jerry.hu (SE)
-     * @since 2017-09-08 14:07:52
-     */
-    private static HttpServletRequest getHttpRequest() {
-        return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    }
-
-    /**
-     * 获取当前请求的request
-     *
-     * @return request
-     * @author jerry.hu (SE)
-     * @since 2017-09-08 14:07:52
-     */
-    private static HttpServletResponse getHttpResponse() {
-        return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
     }
 }

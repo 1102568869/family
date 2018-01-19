@@ -11,6 +11,9 @@ const prodPrefix = protocol + "//" + hostname + ":" + port;
 const devPrefix = protocol + "//" + hostname + ":8888";
 const pre = process.env.NODE_ENV === 'production' ? prodPrefix : devPrefix;
 
+
+const msgRex = /"message":"([\S|\s]*)",/;
+
 export function ajaxGet(url, success, fail) {
     axios.get(getFinalRequestUrl(url), {withCredentials: true})
         .then(function (response) {
@@ -19,31 +22,51 @@ export function ajaxGet(url, success, fail) {
             success(result);
         })
         .catch(function (error) {
+            console.log(error);
+            console.log(error.config);
+            let msg = '';
             if (error.response) {
                 console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
+                msg = error.response.data.message || error.response.data.match(msgRex)[1];
                 if (error.response.status == 401 || error.response.status == 403) {
-                    window.top.location.href = prodPrefix+"/#/login" ;
+                    window.top.location.href = prodPrefix + '/#/login';
                     return;
                 }
-
             } else if (error.request) {
-                // The request was made but no response was received
-                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                // http.ClientRequest in node.js
-                console.log(error.request);
+                msg = JSON.stringify(error.request);
             } else {
-                // Something happened in setting up the request that triggered an Error
-                console.log('Error', error.message);
+                msg = error.message;
             }
-            console.log(error.config);
             if (fail) {
-                fail(error);
+                fail(msg);
             }
         });
+    // .catch(function (error) {
+    //     // if (error.response) {
+    //     //     console.log(error.response.data);
+    //     //     console.log(error.response.status);
+    //     //     console.log(error.response.headers);
+    //     //     // The request was made and the server responded with a status code
+    //     //     // that falls out of the range of 2xx
+    //     //     if (error.response.status == 401 || error.response.status == 403) {
+    //     //         window.top.location.href = prodPrefix+"/#/login" ;
+    //     //         return;
+    //     //     }
+    //     //
+    //     // } else if (error.request) {
+    //     //     // The request was made but no response was received
+    //     //     // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+    //     //     // http.ClientRequest in node.js
+    //     //     console.log(error.request);
+    //     // } else {
+    //     //     // Something happened in setting up the request that triggered an Error
+    //     //     console.log('Error', error.message);
+    //     // }
+    //     // console.log(error.config);
+    //     if (fail) {
+    //         fail(error);
+    //     }
+    // });
 };
 
 export function ajaxPost(url, data, success, fail) {
@@ -52,28 +75,23 @@ export function ajaxPost(url, data, success, fail) {
             success(response.data);
         })
         .catch(function (error) {
+            console.log(error);
+            console.log(error.config);
+            let msg = '';
             if (error.response) {
                 console.log(error.response.data);
-                console.log(error.response.status);
-                console.log(error.response.headers);
-                // The request was made and the server responded with a status code
-                // that falls out of the range of 2xx
+                msg = error.response.data.message || error.response.data.match(msgRex)[1];
                 if (error.response.status == 401 || error.response.status == 403) {
-                    window.top.location.href = prodPrefix+"/#/login" ;
+                    window.top.location.href = prodPrefix + '/#/login';
                     return;
                 }
             } else if (error.request) {
-                // The request was made but no response was received
-                // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                // http.ClientRequest in node.js
-                console.log(error.request);
+                msg = JSON.stringify(error.request);
             } else {
-                // Something happened in setting up the request that triggered an Error
-                console.log('Error', error.message);
+                msg = error.message;
             }
-            console.log(error.config);
             if (fail) {
-                fail(error);
+                fail(msg);
             }
         });
 };

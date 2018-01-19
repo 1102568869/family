@@ -23,6 +23,7 @@ public class LoginFamilyMember extends Familymember {
         this.setMobile(familymember.getMobile());
         this.setEmail(familymember.getEmail());
         this.setQq(familymember.getQq());
+        this.setImage(familymember.getImage());
     }
 
     public String getToken() {

@@ -26,7 +26,7 @@
         <!-- 打印sql语句 -->
         <setting name="logPrefix" value="dao."/>
         <!-- 完整的jdbc相关日志 -->
-        <!--<setting name="logImpl" value="STDOUT_LOGGING" />-->
+        <setting name="logImpl" value="STDOUT_LOGGING" />
 
     </settings>
 

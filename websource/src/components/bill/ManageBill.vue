@@ -136,6 +136,7 @@
                             vm.$message({
                                 message: '账单已被删除!',
                                 type: 'success',
+                                duration: 1000,
                                 onClose: function (msg) {
                                     vm.searchPage();
                                 }
@@ -143,8 +144,8 @@
                         } else {
                             vm.$message.error('删除账单失败!');
                         }
-                    }, (e) => {
-                        vm.$message.error('删除账单失败!')
+                    }, (msg) => {
+                        vm.$message.error(msg);
                     });
                 }).catch(() => {
                     vm.$message({

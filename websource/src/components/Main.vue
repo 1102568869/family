@@ -7,7 +7,7 @@
                     <!--<img src="./assets/washmore.png">-->
                 </div>
                 <div class="header-right">
-                    <el-button type="primary" round icon="el-icon-message">
+                    <el-button type="primary" round plain :style="{background:'url(' + loginMember.image+ ') center'}">
                         {{loginMember.name}}
                     </el-button>
                     <el-button round @click="logOut">登出</el-button>
@@ -25,7 +25,6 @@
                             <router-link to="/bill">
                                 <el-menu-item index="1-2">账单列表</el-menu-item>
                             </router-link>
-
                             <el-menu-item index="1-3">草稿箱</el-menu-item>
                         </el-submenu>
                         <el-submenu index="2">
@@ -66,7 +65,8 @@
         data() {
             return {
                 loginMember: {
-                    name: ''
+                    name: '',
+                    image: ''
                 }
             }
         },
@@ -88,7 +88,6 @@
                 });
             },
             logOut() {
-
                 this.$confirm('确认退出?', '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
@@ -109,7 +108,7 @@
         }
     }
 </script>
-<style>
+<style scoped>
     .el-header {
         top: 0px;
         left: 0px;
@@ -166,4 +165,5 @@
         float: left;
         margin-top: 10px;
     }
+
 </style>

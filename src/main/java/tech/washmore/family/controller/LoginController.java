@@ -2,12 +2,10 @@ package tech.washmore.family.controller;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import tech.washmore.family.common.Constants;
 import tech.washmore.family.common.uc.MemeryTokenManger;
+import tech.washmore.family.logic.GetFamilymemberByAccountAndPasswordLogic;
 import tech.washmore.family.model.Familymember;
 import tech.washmore.family.service.FamilymemberService;
 import tech.washmore.family.utils.CookieUtil;
@@ -20,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginController {
     @Autowired
     private MemeryTokenManger memeryTokenManger;
+    @Autowired
+    private GetFamilymemberByAccountAndPasswordLogic getFamilymemberByAccountAndPasswordLogic;
 
     @PostMapping({"/login"})
     public boolean login(@RequestBody Familymember familymember, HttpServletResponse response) throws Exception {
@@ -32,8 +32,16 @@ public class LoginController {
     }
 
     @GetMapping({"/verifyToken"})
-    public Familymember login() throws Exception {
+    public Familymember verifyToken() throws Exception {
         Cookie token = CookieUtil.getCurrentCookieByName(Constants.COOKIE_TOKEN_KEY);
         return memeryTokenManger.getLoginMemberByToken(token.getValue());
+    }
+
+    @PostMapping({"/verifyPassword"})
+    public boolean verifyPassword(@RequestBody Familymember oldPasswordMember, @RequestAttribute(Constants.REQUEST_MEMBER_ACCOUNT) String account) throws Exception {
+        if (oldPasswordMember.getPassword() == null) {
+            return false;
+        }
+        return getFamilymemberByAccountAndPasswordLogic.getFamilymemberByAccountAndPassword(account, oldPasswordMember.getPassword()) != null;
     }
 }

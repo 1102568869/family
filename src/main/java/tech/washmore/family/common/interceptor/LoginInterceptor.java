@@ -25,7 +25,7 @@ public class LoginInterceptor extends BaseInterceptor implements HandlerIntercep
         Object memberAccount = request.getAttribute(Constants.REQUEST_MEMBER_ACCOUNT);
         Object memberId = request.getAttribute(Constants.REQUEST_MEMBER_ID);
 
-        if (memberAccount != null || memberId != null) {
+        if (!request.getRequestURI().equals("/error") && (memberAccount != null || memberId != null)) {
             errorRequestParamOfLoginUserCode(response);
             return false;
         }
