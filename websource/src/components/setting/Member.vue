@@ -178,16 +178,9 @@
 
     .image {
         width: 100%;
+        min-height: 232px;
         display: block;
     }
 
-    .clearfix:before,
-    .clearfix:after {
-        display: table;
-        content: "";
-    }
 
-    .clearfix:after {
-        clear: both
-    }
 </style>

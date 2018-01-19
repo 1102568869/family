@@ -53,6 +53,8 @@
                 balanceTypes: []
             }
         },
+        created(){
+        },
         methods: {
             resetFrom(formName) {
                 this.$refs[formName].resetFields();

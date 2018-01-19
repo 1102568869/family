@@ -57,3 +57,11 @@ CREATE TABLE familymember
   COMMENT '家庭成员'
   ENGINE = InnoDB;
 
+INSERT INTO family.billtype (id, name, comment) VALUES (1, '衣', NULL);
+INSERT INTO family.billtype (id, name, comment) VALUES (2, '食', NULL);
+INSERT INTO family.billtype (id, name, comment) VALUES (3, '住', NULL);
+INSERT INTO family.billtype (id, name, comment) VALUES (4, '行', NULL);
+
+INSERT INTO family.familymember (id, account, name, password, mobile, email, qq, creator, creatAt, updater, updateAt, image)
+VALUES (1, 'admin', '密码123456', '*6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9', NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+        'https://avatars2.githubusercontent.com/u/13030698?s=460&v=4');

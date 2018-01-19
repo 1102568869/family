@@ -62,7 +62,7 @@ export default router;
 router.beforeEach((to, from, next) => {
     if (!to.matched.some(record => record.meta.loginNeedless)) {  // 判断该路由是否需要登录权限
         let token = getCookie("family_token");
-        if (token || token.length > 0) {
+        if (token && token.length > 0) {
             next();
         } else {
             next({

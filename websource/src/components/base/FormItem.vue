@@ -57,13 +57,6 @@
         components: {ElForm},
         props: {
             data: Object,
-            // items: [{
-            //     prop: '',
-            //     label: '',
-            //     placeholder: '',
-            //     modelName: '',
-            //     autoComplete: null
-            // }]
             items: Array
         },
         name: 'formItem',
