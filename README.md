@@ -11,7 +11,7 @@ srpingboot+vue2.js+elementui
 # --depth 1 removes all but one .git commit history
 git clone --depth 1 https://github.com/1102568869/family.git
 
-# create database family and run sql/init.sql to create tables;
+# create database family and run sql/init.sql to create tables and insert data necessary;
 
 # replace url/username/password with your database config in application.yml;
 
@@ -20,17 +20,18 @@ cd family/websource
 
 # install the repo with npm
 npm install
-**if failed,change source**
+
+# if failed,change source
 npm --registry https://registry.npm.taobao.org install
 
 # build by webpack
 npm run build
 
-# change directory to java
+# change directory to project
 cd ../
 
 # package jar by Maven
-mvn clean package
+mvn clean package -Dmaven.test.skip=true
 
 # run it!
 java -jar target/Demo.jar
