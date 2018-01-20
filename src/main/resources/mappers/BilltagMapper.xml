@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BilltagMapper">
+    <select id="findBilltagsByParams" resultType="billtag" parameterType="hashmap">
+        SELECT tag.* FROM billtag tag
+        LEFT JOIN billwithtags bt on bt.tag = tag.id
+        <where>
+            <if test="@Ognl@isNotEmpty(id)">
+                AND tag.id = #{id}
+            </if>
+            <if test="@Ognl@isNotEmpty(billId)">
+                AND bt.bill = #{billId}
+            </if>
+        </where>
+    </select>
+</mapper>

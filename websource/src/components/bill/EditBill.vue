@@ -1,7 +1,7 @@
 <template>
     <div class="hello">
         <el-form :model="bill" :rules="rules" ref="billForm" label-width="100px" style="width: 600px">
-            <bill-form :bill="bill"></bill-form>
+            <bill-form :bill="bill" :tags="tags"></bill-form>
             <el-form-item>
                 <el-button type="primary" @click="onSubmit('billForm')">立即创建</el-button>
                 <el-button @click="resetFrom('billForm')">重置内容</el-button>
@@ -46,10 +46,12 @@
                 },
                 types: [],
                 members: [],
-                balanceTypes: []
+                balanceTypes: [],
+                tags: []
             }
         },
         methods: {
+
             resetFrom(formName) {
                 this.$refs[formName].resetFields();
                 this.isSubmitting = false;
@@ -96,6 +98,7 @@
             next((vm) => {
                 let id = vm.$route.params.id;
                 ajaxGet('/bill/get/item?id=' + id, (data) => vm.bill = data)
+                ajaxGet('/bill/get/tags?billId=' + id, (data) => vm.tags = data);
             });
         },
         beforeRouteUpdate(to, from, next) {
@@ -103,6 +106,8 @@
             // don't forget to call next()
             let id = to.params.id;
             ajaxGet('/bill/get/item?id=' + id, (data) => this.bill = data);
+            ajaxGet('/bill/get/tags?billId=' + id, (data) => this.tags = data);
+
             next();
         }
     }

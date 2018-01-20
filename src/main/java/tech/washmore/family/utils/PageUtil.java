@@ -5,6 +5,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import tech.washmore.family.model.Bill;
 import tech.washmore.family.model.Page;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,7 +23,9 @@ public class PageUtil {
         page.setPageNo(pageNo);
         page.setPageSize(pageSize);
         page.setTotalCount(CollectionUtils.size(list));
-        page.setList(CollectionUtils.isEmpty(list) ? null : list.subList(pageSize * (pageNo - 1), pageSize * pageNo > page.getTotalCount() ? page.getTotalCount() : pageSize * pageNo));
+        page.setList(CollectionUtils.isEmpty(list) ? new ArrayList<>() : list.subList(pageSize * (pageNo - 1), pageSize * pageNo > page.getTotalCount() ? page.getTotalCount() : pageSize * pageNo));
         return page;
     }
+
+
 }

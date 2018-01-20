@@ -2,11 +2,16 @@ package tech.washmore.family.model.view;
 
 import tech.washmore.family.common.enums.BalanceType;
 import tech.washmore.family.model.Bill;
+import tech.washmore.family.model.Billtag;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BillView extends Bill {
 
     private String memberName;
     private String typeName;
+    private List<Billtag> tags = new ArrayList<>();
 
     public String getBalanceName() {
         return BalanceType.of(getBalance()).getName();
@@ -26,5 +31,13 @@ public class BillView extends Bill {
 
     public void setTypeName(String typeName) {
         this.typeName = typeName;
+    }
+
+    public List<Billtag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Billtag> tags) {
+        this.tags = tags;
     }
 }

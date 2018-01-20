@@ -8,6 +8,7 @@
                 AND id = #{id}
             </if>
         </where>
+        ORDER BY recordtime DESC
     </select>
     <insert id="addBill" parameterType="bill">
         INSERT INTO bill (name, type, money, balance, member, recordtime, comment)
@@ -32,5 +33,6 @@
                 AND b.id = #{id}
             </if>
         </where>
+        ORDER BY recordtime DESC
     </select>
 </mapper>

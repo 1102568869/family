@@ -25,6 +25,16 @@
                 </el-select>
             </el-input>
         </el-form-item>
+        <el-form-item label="标签">
+            <el-select v-model="bill.tags"  :key="id" multiple placeholder="请选择">
+                <el-option
+                        v-for="tag in tags"
+                        :key="tag.id"
+                        :label="tag.name"
+                        :value="tag">
+                </el-option>
+            </el-select>
+        </el-form-item>
         <el-form-item label="说明">
             <el-input placeholder="请输入内容" v-model="bill.comment" clearable
                       type="textarea"
@@ -59,7 +69,7 @@
 
     export default {
         components: {ElForm},
-        props: {bill: Object},
+        props: {bill: {id: null}, tags: Array},
         name: 'BillForm',
         componentName: 'BillForm',
         created() {
@@ -71,9 +81,10 @@
             return {
                 types: [],
                 members: [],
-                balanceTypes: []
+                balanceTypes: [],
             }
         },
+
         methods: {
             getTypes() {
                 ajaxGet('/billtype/get/all', (data) => this.types = data);

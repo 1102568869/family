@@ -13,9 +13,11 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import tech.washmore.family.common.enums.BalanceType;
 import tech.washmore.family.model.Bill;
+import tech.washmore.family.model.Billtag;
 import tech.washmore.family.model.Page;
 import tech.washmore.family.model.view.BillView;
 import tech.washmore.family.service.BillService;
+import tech.washmore.family.service.BilltagService;
 import tech.washmore.family.service.BilltypeService;
 import tech.washmore.family.service.FamilymemberService;
 import tech.washmore.family.utils.PageUtil;
@@ -35,6 +37,8 @@ import java.util.stream.Stream;
 public class BillController {
     @Autowired
     private BillService billService;
+    @Autowired
+    private BilltagService billtagService;
 
     @PostMapping("/post/add")
     public boolean add(@Validated @RequestBody Bill bill, BindingResult result) {
@@ -61,12 +65,23 @@ public class BillController {
 
     @GetMapping("/get/page")
     public Page<BillView> getPage(@RequestParam(defaultValue = "10") int pageSize, @RequestParam(defaultValue = "1") int pageNo) {
-        return PageUtil.fillPage(billService.getAllBillViews(), pageSize, pageNo);
+        Page<BillView> page = PageUtil.fillPage(billService.getAllBillViews(), pageSize, pageNo);
+        page.getList().forEach(b -> {
+            b.setTags(billtagService.getBilltagsByBillId(b.getId()));
+        });
+        return page;
     }
 
     @GetMapping("/get/item")
     public BillView getBillView(@RequestParam int id) {
-        return billService.getBillViewById(id);
+        BillView bill = billService.getBillViewById(id);
+       bill.setTags(billtagService.getBilltagsByBillId(id));
+        return bill;
+    }
+
+    @GetMapping("/get/tags")
+    public List<Billtag> getTagsOfBill(@RequestParam int billId) {
+        return billtagService.getBilltagsByBillId(billId);
     }
 
     @GetMapping("/get/balanceTypes")
