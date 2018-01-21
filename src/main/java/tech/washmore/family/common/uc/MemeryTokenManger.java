@@ -54,10 +54,18 @@ public class MemeryTokenManger {
         return loginFamilyMember;
     }
 
-    public String createToken(String account, String password) {
+    /**
+     * 待只支持单处登陆参数的创建token方法(实现原理是移除此account的其他token)
+     *
+     * @param account
+     * @param password
+     * @param singleFlag
+     * @return
+     */
+    public String createTokenWithSingleFlag(String account, String password, boolean singleFlag) {
         Familymember familymember = getFamilymemberByAccountAndPasswordLogic.getFamilymemberByAccountAndPassword(account, password);
         if (familymember == null) {
-            LOGGER.info("MemeryTokenManger-createToken:account[{}],password[{}]验证失败!", account, password);
+            LOGGER.info("MemeryTokenManger-createTokenWithSingleFlag:account[{}],password[{}]验证失败!", account, password);
             return null;
         }
         LoginFamilyMember loginFamilyMember = new LoginFamilyMember(familymember);
@@ -65,9 +73,26 @@ public class MemeryTokenManger {
 
         loginFamilyMember.setExpire(System.currentTimeMillis() + EXPIRE_HALF_HOUR);
         loginFamilyMember.setToken(token);
-        LOGGER.info("MemeryTokenManger-createToken:account[{}],password[{}]成功创建token[{}]!对应成员[{}]", account, password, token, loginFamilyMember.getName());
+        if (singleFlag) {
+            loginMembers.values().stream().filter(m -> m.getAccount().equals(account)).map(LoginFamilyMember::getToken).collect(Collectors.toList()).forEach(t -> {
+                LOGGER.info("MemeryTokenManger-createTokenWithSingleFlag:account[{}]成功移除其他的token[{}]!对应成员[{}]", account, t, loginFamilyMember.getName());
+                loginMembers.remove(t);
+            });
+        }
+        LOGGER.info("MemeryTokenManger-createTokenWithSingleFlag:account[{}],password[{}]成功创建token[{}]!对应成员[{}]", account, password, token, loginFamilyMember.getName());
         loginMembers.put(token, loginFamilyMember);
         return token;
+    }
+
+    /**
+     * 默认只支持单处登录
+     *
+     * @param account
+     * @param password
+     * @return
+     */
+    public String createToken(String account, String password) {
+        return createTokenWithSingleFlag(account, password, true);
     }
 
     @Scheduled(cron = "0 0/5 * * * ?")

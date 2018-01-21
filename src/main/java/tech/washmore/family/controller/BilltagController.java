@@ -32,6 +32,7 @@ public class BilltagController {
         if (CollectionUtils.isEmpty(billtags)) {
             return new ArrayList<>();
         }
+
         return billtags.stream().sorted(Comparator.comparing(Billtag::getId).reversed()).filter(distinctByKey(tag -> tag.getId())).collect(Collectors.toList());
     }
 
