@@ -11,6 +11,13 @@
             <if test="@Ognl@isNotEmpty(billId)">
                 AND bt.bill = #{billId}
             </if>
+            <if test="@Ognl@isNotEmpty(name)">
+                AND tag.name = #{name}
+            </if>
         </where>
     </select>
+    <insert id="addBilltag" parameterType="billtag" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO billtag (name, comment)
+        VALUES (#{name}, #{comment})
+    </insert>
 </mapper>

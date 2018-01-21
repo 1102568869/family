@@ -41,7 +41,7 @@ public class BillController {
     private BilltagService billtagService;
 
     @PostMapping("/post/add")
-    public boolean add(@Validated @RequestBody Bill bill, BindingResult result) {
+    public boolean add(@Validated @RequestBody BillView bill, BindingResult result) {
         if (result.hasErrors()) {
             throw new IllegalArgumentException(String.join(",", result.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.toList())));
         }
@@ -50,7 +50,7 @@ public class BillController {
     }
 
     @PostMapping("/post/update")
-    public boolean update(@Validated @RequestBody Bill bill, BindingResult result) {
+    public boolean update(@Validated @RequestBody BillView bill, BindingResult result) {
         if (result.hasErrors()) {
             throw new IllegalArgumentException(String.join(",", result.getAllErrors().stream().map(ObjectError::getDefaultMessage).collect(Collectors.toList())));
         }
@@ -75,7 +75,11 @@ public class BillController {
     @GetMapping("/get/item")
     public BillView getBillView(@RequestParam int id) {
         BillView bill = billService.getBillViewById(id);
-       bill.setTags(billtagService.getBilltagsByBillId(id));
+        List<Billtag> tags = billtagService.getBilltagsByBillId(id);
+        if (CollectionUtils.isNotEmpty(tags)) {
+            //bill.setTags(tags);
+            bill.setTagIds(tags.stream().map(Billtag::getId).collect(Collectors.toList()));
+        }
         return bill;
     }
 

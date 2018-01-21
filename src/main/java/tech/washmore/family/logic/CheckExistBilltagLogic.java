@@ -4,12 +4,12 @@ import com.google.common.collect.ImmutableMap;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import tech.washmore.family.dao.BillTagDao;
 import tech.washmore.family.dao.FamilymemberDao;
+import tech.washmore.family.model.Billtag;
 import tech.washmore.family.model.Familymember;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author Washmore
@@ -19,16 +19,16 @@ import java.util.Map;
  * @since 2018/1/19
  */
 @Component
-public class CheckExistMemberLogic {
+public class CheckExistBilltagLogic {
     @Autowired
-    private FamilymemberDao familymemberDao;
+    private BillTagDao billTagDao;
 
-    public Familymember checkExistMember(Familymember familymember) {
-        List<Familymember> list = familymemberDao.findFamilymembersByParams(ImmutableMap.of("account", familymember.getAccount()));
+    public Billtag checkExistBilltag(Billtag billtag) {
+        List<Billtag> list = billTagDao.findBilltagsByParams(ImmutableMap.of("name", billtag.getName()));
         if (CollectionUtils.isEmpty(list)) {
             return null;
         }
-        Integer id = familymember.getId();
+        Integer id = billtag.getId();
         if (id == null) {
             return list.get(0);
         }

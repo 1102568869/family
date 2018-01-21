@@ -12,6 +12,22 @@ public class BillView extends Bill {
     private String memberName;
     private String typeName;
     private List<Billtag> tags = new ArrayList<>();
+    private List tagIds = new ArrayList<>();
+
+    public List getTagIds() {
+        return tagIds;
+    }
+
+    public void setTagIds(List tagIds) {
+        this.tagIds = tagIds;
+    }
+    public List<Billtag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Billtag> tags) {
+        this.tags = tags;
+    }
 
     public String getBalanceName() {
         return BalanceType.of(getBalance()).getName();
@@ -33,11 +49,4 @@ public class BillView extends Bill {
         this.typeName = typeName;
     }
 
-    public List<Billtag> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<Billtag> tags) {
-        this.tags = tags;
-    }
 }

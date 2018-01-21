@@ -4,7 +4,9 @@ import com.alibaba.fastjson.annotation.JSONField;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Bill {
 
@@ -23,6 +25,7 @@ public class Bill {
     private String comment;
     @NotNull(message = "需要选择收支类型")
     private Integer balance;
+
 
     public Integer getId() {
         return id;

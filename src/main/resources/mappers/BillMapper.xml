@@ -10,7 +10,7 @@
         </where>
         ORDER BY recordtime DESC
     </select>
-    <insert id="addBill" parameterType="bill">
+    <insert id="addBill" parameterType="bill" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO bill (name, type, money, balance, member, recordtime, comment)
         VALUES (#{name}, #{type}, #{money}, #{balance}, #{member}, #{recordtime}, #{comment})
     </insert>

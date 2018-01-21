@@ -1,61 +1,71 @@
-CREATE TABLE bill
+create table bill
 (
-  id         INT AUTO_INCREMENT
-    PRIMARY KEY,
-  name       VARCHAR(50)     NOT NULL
-  COMMENT '事项',
-  type       INT             NOT NULL
-  COMMENT '种类	',
-  money      FLOAT           NOT NULL
-  COMMENT '金额',
-  balance    INT DEFAULT '0' NOT NULL,
-  member     INT             NOT NULL
-  COMMENT '经手成员
+	id int auto_increment
+		primary key,
+	name varchar(50) not null comment '事项',
+	type int not null comment '种类	',
+	money float not null comment '金额',
+	balance int default '0' not null,
+	member int not null comment '经手成员
 	',
-  recordtime DATETIME        NOT NULL
-  COMMENT '经手时间',
-  comment    VARCHAR(200)    NULL
-  COMMENT '事项说明'
+	recordtime datetime not null comment '经手时间',
+	comment varchar(200) null comment '事项说明'
 )
-  COMMENT '账单'
-  ENGINE = InnoDB;
+comment '账单' engine=InnoDB
+;
 
-CREATE TABLE billtype
+create table billtag
 (
-  id      INT AUTO_INCREMENT
-    PRIMARY KEY,
-  name    VARCHAR(50)  NOT NULL,
-  comment VARCHAR(200) NULL
+	id int auto_increment
+		primary key,
+	name varchar(50) not null,
+	comment varchar(200) null,
+	constraint billtag_name_uindex
+		unique (name)
 )
-  COMMENT '账单类型'
-  ENGINE = InnoDB;
+comment '标签' engine=InnoDB
+;
 
-CREATE TABLE familymember
+create table billtype
 (
-  id       INT AUTO_INCREMENT
-    PRIMARY KEY,
-  account  VARCHAR(50)                                  NOT NULL
-  COMMENT '帐号',
-  name     VARCHAR(50)                                  NOT NULL
-  COMMENT '姓名',
-  password VARCHAR(100)                                 NOT NULL
-  COMMENT '密码',
-  mobile   VARCHAR(20)                                  NULL
-  COMMENT '手机号码',
-  email    VARCHAR(100)                                 NULL
-  COMMENT '邮箱',
-  qq       VARCHAR(20)                                  NULL
-  COMMENT 'QQ号码',
-  creator  VARCHAR(50) DEFAULT 'washmore'               NULL,
-  creatAt  DATETIME                                     NULL,
-  updater  VARCHAR(50) DEFAULT 'washmore'               NULL,
-  updateAt DATETIME                                     NULL,
-  image    VARCHAR(200) DEFAULT '@/assets/touxiang.png' NULL,
-  CONSTRAINT FamilyMember_account_uindex
-  UNIQUE (account)
+	id int auto_increment
+		primary key,
+	name varchar(50) not null,
+	comment varchar(200) null,
+	constraint billtype_name_uindex
+		unique (name)
 )
-  COMMENT '家庭成员'
-  ENGINE = InnoDB;
+comment '账单类型' engine=InnoDB
+;
+
+create table billwithtags
+(
+	bill int not null,
+	tag int not null
+)
+engine=InnoDB
+;
+
+create table familymember
+(
+	id int auto_increment
+		primary key,
+	account varchar(50) not null comment '帐号',
+	name varchar(50) not null comment '姓名',
+	password varchar(100) not null comment '密码',
+	mobile varchar(20) null comment '手机号码',
+	email varchar(100) null comment '邮箱',
+	qq varchar(20) null comment 'QQ号码',
+	creator varchar(50) default 'washmore' null,
+	creatAt datetime null,
+	updater varchar(50) default 'washmore' null,
+	updateAt datetime null,
+	image varchar(200) default '@/assets/touxiang.png' null,
+	constraint FamilyMember_account_uindex
+		unique (account)
+)
+comment '家庭成员' engine=InnoDB
+;
 
 INSERT INTO family.billtype (id, name, comment) VALUES (1, '衣', NULL);
 INSERT INTO family.billtype (id, name, comment) VALUES (2, '食', NULL);

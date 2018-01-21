@@ -18,4 +18,8 @@ public class GetBilltagsByBillIdLogic {
     public List<Billtag> getBilltagsByBillId(int billId) {
         return billTagDao.findBilltagsByParams(ImmutableMap.of("billId", billId));
     }
+
+    public List<Billtag> getAllBilltags() {
+        return billTagDao.findBilltagsByParams(null);
+    }
 }

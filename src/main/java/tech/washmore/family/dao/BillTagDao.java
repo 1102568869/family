@@ -13,4 +13,9 @@ public class BillTagDao extends BaseDao {
     public List<Billtag> findBilltagsByParams(Map<String, Object> params) {
         return super.getSqlSession().selectList("findBilltagsByParams", params);
     }
+
+
+    public int addBilltag(Billtag billtag) {
+        return super.getSqlSession().insert("addBilltag", billtag);
+    }
 }

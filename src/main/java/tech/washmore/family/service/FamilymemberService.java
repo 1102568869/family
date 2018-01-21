@@ -46,7 +46,7 @@ public class FamilymemberService {
     }
 
     public boolean checkExistMember(Familymember familymember) {
-        return checkExistMemberLogic.checkExistMember(familymember);
+        return checkExistMemberLogic.checkExistMember(familymember) != null;
     }
 
     public boolean changePassword(Familymember familymember) {

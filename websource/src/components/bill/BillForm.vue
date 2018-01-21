@@ -26,12 +26,17 @@
             </el-input>
         </el-form-item>
         <el-form-item label="标签">
-            <el-select v-model="bill.tags"  :key="id" multiple placeholder="请选择">
+            <el-select v-model="bill.tagIds"
+                       multiple
+                       allow-create
+                       filterable
+                       default-first-option
+                       placeholder="请选择" @focus="changeTag" style="width: 100%;">
                 <el-option
                         v-for="tag in tags"
                         :key="tag.id"
                         :label="tag.name"
-                        :value="tag">
+                        :value="tag.id">
                 </el-option>
             </el-select>
         </el-form-item>
@@ -69,16 +74,18 @@
 
     export default {
         components: {ElForm},
-        props: {bill: {id: null}, tags: Array},
+        props: {bill: {id: null}},
         name: 'BillForm',
         componentName: 'BillForm',
         created() {
+            this.getTop10Tags();
             this.getTypes();
             this.getMmebers();
             this.getBalanceTypes();
         },
         data() {
             return {
+                tags: [],
                 types: [],
                 members: [],
                 balanceTypes: [],
@@ -86,6 +93,9 @@
         },
 
         methods: {
+            changeTag() {
+                console.info(this.bill.tags, this.tags)
+            },
             getTypes() {
                 ajaxGet('/billtype/get/all', (data) => this.types = data);
             },
@@ -94,6 +104,9 @@
             },
             getBalanceTypes() {
                 ajaxGet('/bill/get/balanceTypes', (data) => this.balanceTypes = data);
+            },
+            getTop10Tags() {
+                ajaxGet('/billtag/get/top10', (data) => this.tags = data);
             }
         }
     }

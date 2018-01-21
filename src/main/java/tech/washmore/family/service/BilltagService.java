@@ -18,4 +18,9 @@ public class BilltagService {
         return getBilltagsByBillIdLogic.getBilltagsByBillId(billId);
     }
 
+    public List<Billtag> getAllBilltags() {
+        return getBilltagsByBillIdLogic.getAllBilltags();
+    }
+
+
 }
