@@ -6,10 +6,14 @@
     "pages/billlist/billlist",
     "pages/noauth/noauth"
   ],
+  "networkTimeout": {
+    "request": 30000,
+    "downloadFile": 10000
+  },
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "singer",
+    "navigationBarTitleText": "sorry",
     "navigationBarTextStyle": "black"
   }
 }
