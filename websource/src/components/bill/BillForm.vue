@@ -31,7 +31,7 @@
                        allow-create
                        filterable
                        default-first-option
-                       placeholder="请选择" @focus="changeTag" style="width: 100%;">
+                       placeholder="请选择" style="width: 100%;">
                 <el-option
                         v-for="tag in tags"
                         :key="tag.id"
@@ -93,20 +93,17 @@
         },
 
         methods: {
-            changeTag() {
-                console.info(this.bill.tags, this.tags)
-            },
             getTypes() {
-                ajaxGet('/billtype/get/all', (data) => this.types = data);
+                ajaxGet(apis._billtype_get_all, (data) => this.types = data);
             },
             getMmebers() {
-                ajaxGet('/familymember/get/all', (data) => this.members = data);
+                ajaxGet(apis._familymember_get_all, (data) => this.members = data);
             },
             getBalanceTypes() {
-                ajaxGet('/bill/get/balanceTypes', (data) => this.balanceTypes = data);
+                ajaxGet(apis._bill_get_balanceTypes, (data) => this.balanceTypes = data);
             },
             getTop10Tags() {
-                ajaxGet('/billtag/get/top10', (data) => this.tags = data);
+                ajaxGet(apis._billtag_get_top10, (data) => this.tags = data);
             }
         }
     }

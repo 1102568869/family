@@ -93,14 +93,14 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    removeCookie('family_token');
+                    removeCookie(consts.token_name);
                     this.$router.push({name: 'login'});
                 }).catch(() => {
                 });
             }
         },
         created() {
-            ajaxGet('/verifyToken', (data) => {
+            ajaxGet(apis._verifyToken, (data) => {
                 if (data && data.name) {
                     this.loginMember = data;
                 }

@@ -70,7 +70,7 @@
                 vm.isSubmitting = true;
                 vm.$refs[formName].validate((valid) => {
                     if (valid) {
-                        ajaxPost('/bill/post/add', this.bill, (result) => {
+                        ajaxPost(apis._bill_post_add, this.bill, (result) => {
                             if (!!result) {
                                 vm.$message({
                                     message: '账单添加成功!',

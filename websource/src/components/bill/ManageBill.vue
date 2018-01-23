@@ -106,7 +106,7 @@
             searchPage() {
                 this.loading = true;
                 console.info('searchPage', 'this.params.pageNo', this.params.pageNo);
-                ajaxGet('/bill/get/page?pageSize=' + this.params.pageSize + '&pageNo=' + this.params.pageNo, (data) => {
+                ajaxGet(apis._bill_get_page + '?pageSize=' + this.params.pageSize + '&pageNo=' + this.params.pageNo, (data) => {
                     this.page = data;
                     this.loading = false;
                 }, (e) => {
@@ -130,7 +130,7 @@
                     cancelButtonText: '取消',
                     type: 'warning'
                 }).then(() => {
-                    ajaxPost('/bill/post/delete?id=' + id, {}, (result) => {
+                    ajaxPost(apis._bill_post_delete + '?id=' + id, {}, (result) => {
                         console.info("result", result);
                         if (result) {
                             vm.$message({

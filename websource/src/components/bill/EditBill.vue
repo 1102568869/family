@@ -1,7 +1,7 @@
 <template>
     <div class="hello">
         <el-form :model="bill" :rules="rules" ref="billForm" label-width="100px" style="width: 600px">
-            <bill-form :bill="bill" ></bill-form>
+            <bill-form :bill="bill"></bill-form>
             <el-form-item>
                 <el-button type="primary" @click="onSubmit('billForm')">立即创建</el-button>
                 <el-button @click="resetFrom('billForm')">重置内容</el-button>
@@ -63,7 +63,7 @@
                 vm.isSubmitting = true;
                 vm.$refs[formName].validate((valid) => {
                     if (valid) {
-                        ajaxPost('/bill/post/update', vm.bill, (result) => {
+                        ajaxPost(apis._bill_post_update, vm.bill, (result) => {
                             if (!!result) {
                                 vm.$message({
                                     message: '账单更新成功!',
@@ -95,14 +95,14 @@
             // 因为当守卫执行前，组件实例还没被创建
             next((vm) => {
                 let id = vm.$route.params.id;
-                ajaxGet('/bill/get/item?id=' + id, (data) => vm.bill = data)
+                ajaxGet(apis._bill_get_item + '?id=' + id, (data) => vm.bill = data)
             });
         },
         beforeRouteUpdate(to, from, next) {
             // react to route changes...
             // don't forget to call next()
             let id = to.params.id;
-            ajaxGet('/bill/get/item?id=' + id, (data) => this.bill = data);
+            ajaxGet(apis._bill_get_item + '?id=' + id, (data) => this.bill = data);
             next();
         }
     }

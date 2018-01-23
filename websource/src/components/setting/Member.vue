@@ -171,7 +171,7 @@
             validateOldPass(rule, value, callback) {
                 var vm = this;
                 setTimeout(() => {
-                    ajaxPost('/verifyPassword', {password: this.pwdForm.oldPassword}, (result) => {
+                    ajaxPost(apis._verifyPassword, {password: this.pwdForm.oldPassword}, (result) => {
                         if (!!result) {
                             callback();
                         } else {
@@ -202,14 +202,14 @@
                 }
             },
             getMmebers() {
-                ajaxGet('/familymember/get/all', (data) => this.members = data);
+                ajaxGet(apis._familymember_get_all, (data) => this.members = data);
             },
             showDialog(id) {
                 let title = "添加成员";
                 if (typeof id === 'number') {
                     title = "编辑成员";
                     this.itemsMap.account.disabled = true;
-                    ajaxGet('/familymember/get/item?id=' + id, (data) => this.formMember = data);
+                    ajaxGet(apis._familymember_get_item + '?id=' + id, (data) => this.formMember = data);
                 }
                 this.dialogTitle = title;
                 this.dialogFormVisible = true;
@@ -230,7 +230,7 @@
                 vm.isSubmitting = true;
                 vm.$refs[formName].validate((valid) => {
                     if (valid) {
-                        ajaxPost('/familymember/post/changePassword', this.pwdForm, (result) => {
+                        ajaxPost(apis._familymember_post_changePassword, this.pwdForm, (result) => {
                             if (!!result) {
                                 vm.$message({
                                     message: '密码修改成功!请重新登陆',
@@ -270,7 +270,7 @@
                 vm.isSubmitting = true;
                 vm.$refs[formName].validate((valid) => {
                     if (valid) {
-                        ajaxPost('/familymember/post/update', this.formMember, (result) => {
+                        ajaxPost(apis._familymember_post_update, this.formMember, (result) => {
                             if (!!result) {
                                 vm.$message({
                                     message: '成员资料编辑成功!',
@@ -307,7 +307,7 @@
                 vm.isSubmitting = true;
                 vm.$refs[formName].validate((valid) => {
                     if (valid) {
-                        ajaxPost('/familymember/post/add', this.formMember, (result) => {
+                        ajaxPost(apis._familymember_post_add, this.formMember, (result) => {
                             if (!!result) {
                                 vm.$message({
                                     message: '成员添加成功!',
