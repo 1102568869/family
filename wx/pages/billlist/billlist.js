@@ -68,6 +68,11 @@ Page({
   onShareAppMessage: function () {
 
   },
+  toEditBill: function (event){
+    // wx.navigateTo({
+    //   url: '../bill/bill?id=' + event.currentTarget.dataset.billid
+    // })
+  },
   searchPage: function () {
     var vm = this;
     wx.request({

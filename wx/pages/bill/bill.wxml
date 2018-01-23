@@ -1,2 +1,7 @@
-<!--pages/bill/bill.wxml-->
-<text>pages/bill/bill.wxml</text>
+<form bindsubmit="formSubmit" bindreset="formReset">
+
+  <view class="btn-area">
+    <button formType="submit">Submit</button>
+    <button formType="reset">Reset</button>
+  </view>
+</form>
