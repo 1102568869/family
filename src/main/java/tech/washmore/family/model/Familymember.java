@@ -15,10 +15,19 @@ public class Familymember {
     private String email;
     private String qq;
     private String image;
+    private String openId;
     private String creator;
     private Date creatAt;
     private String updater;
     private Date updateAt;
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
 
     public String getImage() {
         return image;

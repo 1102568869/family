@@ -1,24 +1,16 @@
 package tech.washmore.family.service;
 
-import com.alibaba.fastjson.JSON;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import tech.washmore.BaseTest;
 import tech.washmore.family.FamilyStarter;
-import tech.washmore.family.utils.SessionUtil;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -30,7 +22,7 @@ import java.util.Map;
  * @since 2018/1/8
  */
 
-public class ApiOuter extends BaseTest {
+public class ApiOuter4Wx extends BaseTest {
     @Autowired
     private RequestMappingHandlerMapping handlerMapping;
     @Autowired
@@ -39,6 +31,7 @@ public class ApiOuter extends BaseTest {
     @Test
     public void testOne() throws Exception {
         StringBuffer sb = new StringBuffer("");
+        sb.append("const HOST = 'http://localhost:8888';\n");
         sb.append("const apis = {\n");
         Map<RequestMappingInfo, HandlerMethod> map = this.handlerMapping.getHandlerMethods();
         Iterator<?> iterator = map.entrySet().iterator();
@@ -49,7 +42,7 @@ public class ApiOuter extends BaseTest {
             if (method.getBeanType().getPackage().getName().startsWith(FamilyStarter.class.getPackage().getName())) {
                 String uri = info.getPatternsCondition().getPatterns().iterator().next();
                 String key = uri.replace("/", "_");
-                sb.append("    " + key + ": '" + uri + "',\n");
+                sb.append("    " + key + ": HOST + '" + uri + "',\n");
             }
         }
         sb.setLength(sb.length() - 2);
@@ -60,7 +53,7 @@ public class ApiOuter extends BaseTest {
         System.out.println(sb.toString());
         String rootpath = applicationContext.getClassLoader().getResource("").getPath();
         String root = rootpath.substring(0, rootpath.lastIndexOf("/family")) + "/family";
-        String out = root + "/websource/src/common/url.js";
+        String out = root + "/wx/utils/url.js";
         File outfile = new File(out);
         if (!outfile.exists()) {
             outfile.createNewFile();

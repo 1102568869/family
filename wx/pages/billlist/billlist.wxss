@@ -1,0 +1,34 @@
+
+.flow {
+  width: 95%;
+  padding: 10px;
+}
+
+.flow-list {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.flow-title {
+  color: #aaa;
+  height: 88rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flow-item {
+  display: flex;
+  height: 88rpx;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #c0c0c0;
+}
+
+.flow-item view {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

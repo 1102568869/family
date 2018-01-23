@@ -15,6 +15,7 @@ const apis = {
     _familymember_get_item: '/familymember/get/item',
     _familymember_post_changePassword: '/familymember/post/changePassword',
     _login: '/login',
+    _login4Wx: '/login4Wx',
     _verifyToken: '/verifyToken',
     _verifyPassword: '/verifyPassword',
     _: '/'

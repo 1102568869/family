@@ -1,5 +1,6 @@
 package tech.washmore.family.common.interceptor;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,13 +30,18 @@ public class LoginInterceptor extends BaseInterceptor implements HandlerIntercep
             errorRequestParamOfLoginUserCode(response);
             return false;
         }
-
-        Cookie token = CookieUtil.getCurrentCookieByName(Constants.COOKIE_TOKEN_KEY);
-
-        if (token != null) {
-            Familymember loginFamilyMember = memeryTokenManger.getLoginMemberByToken(token.getValue());
+        //FIXME 兼容微信小程序,未作充分测试验证
+        String token = request.getHeader(Constants.COOKIE_TOKEN_KEY);
+        if (StringUtils.isEmpty(token)) {
+            Cookie tokenCk = CookieUtil.getCurrentCookieByName(Constants.COOKIE_TOKEN_KEY);
+            if (tokenCk != null) {
+                token = tokenCk.getValue();
+            }
+        }
+        if (StringUtils.isNotEmpty(token)) {
+            Familymember loginFamilyMember = memeryTokenManger.getLoginMemberByToken(token);
             if (loginFamilyMember == null) {
-                LOGGER.warn("token:[{}]解析失败,登录失败!", token.getValue());
+                LOGGER.warn("token:[{}]解析失败,登录失败!", token);
                 unauthorized(response);
                 return false;
             }

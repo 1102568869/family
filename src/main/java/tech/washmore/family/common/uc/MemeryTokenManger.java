@@ -5,16 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import tech.washmore.family.logic.GetAllFamilymembersLogic;
 import tech.washmore.family.logic.GetFamilymemberByAccountAndPasswordLogic;
+import tech.washmore.family.logic.GetFamilymemberByWxOpenIdLogic;
 import tech.washmore.family.model.Familymember;
-import tech.washmore.family.service.FamilymemberService;
 import tech.washmore.family.utils.CookieUtil;
 
-import javax.servlet.http.Cookie;
-import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -34,6 +30,9 @@ public class MemeryTokenManger {
 
     @Autowired
     private GetFamilymemberByAccountAndPasswordLogic getFamilymemberByAccountAndPasswordLogic;
+    @Autowired
+    private GetFamilymemberByWxOpenIdLogic getFamilymemberByWxOpenIdLogic;
+
 
     public Familymember getLoginMemberByToken(String token) {
         LoginFamilyMember loginFamilyMember = loginMembers.get(token);
@@ -65,21 +64,36 @@ public class MemeryTokenManger {
     public String createTokenWithSingleFlag(String account, String password, boolean singleFlag) {
         Familymember familymember = getFamilymemberByAccountAndPasswordLogic.getFamilymemberByAccountAndPassword(account, password);
         if (familymember == null) {
-            LOGGER.info("MemeryTokenManger-createTokenWithSingleFlag:account[{}],password[{}]验证失败!", account, password);
+            LOGGER.info("MemeryTokenManger-createTokenWithSingleFlag:account[{}]验证失败!", account);
             return null;
         }
+        return this.generateToken(singleFlag, familymember);
+    }
+
+
+    public String createToken4Wx(String openId) {
+        Familymember familymember = getFamilymemberByWxOpenIdLogic.getFamilymemberByWxOpenId(openId);
+        if (familymember == null) {
+            LOGGER.info("MemeryTokenManger-createToken4Wx:openId[{}]验证失败!", openId);
+            return null;
+        }
+        return this.generateToken(true, familymember);
+    }
+
+
+    private String generateToken(boolean singleFlag, Familymember familymember) {
         LoginFamilyMember loginFamilyMember = new LoginFamilyMember(familymember);
         String token = UUID.randomUUID().toString();
 
         loginFamilyMember.setExpire(System.currentTimeMillis() + EXPIRE_HALF_HOUR);
         loginFamilyMember.setToken(token);
         if (singleFlag) {
-            loginMembers.values().stream().filter(m -> m.getAccount().equals(account)).map(LoginFamilyMember::getToken).collect(Collectors.toList()).forEach(t -> {
-                LOGGER.info("MemeryTokenManger-createTokenWithSingleFlag:account[{}]成功移除其他的token[{}]!对应成员[{}]", account, t, loginFamilyMember.getName());
+            loginMembers.values().stream().filter(m -> m.getAccount().equals(familymember.getAccount())).map(LoginFamilyMember::getToken).collect(Collectors.toList()).forEach(t -> {
+                LOGGER.info("MemeryTokenManger-createTokenWithSingleFlag:account[{}]成功移除其他的token[{}]!对应成员[{}]", loginFamilyMember.getAccount(), t, loginFamilyMember.getName());
                 loginMembers.remove(t);
             });
         }
-        LOGGER.info("MemeryTokenManger-createTokenWithSingleFlag:account[{}],password[{}]成功创建token[{}]!对应成员[{}]", account, password, token, loginFamilyMember.getName());
+        LOGGER.info("MemeryTokenManger-createTokenWithSingleFlag:account[{}],成功创建token[{}]!对应成员[{}]", loginFamilyMember.getAccount(), token, loginFamilyMember.getName());
         loginMembers.put(token, loginFamilyMember);
         return token;
     }

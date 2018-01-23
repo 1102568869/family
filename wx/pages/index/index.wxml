@@ -1,0 +1,27 @@
+<!--index.wxml-->
+<view class="container">
+  <!-- 按钮组 -->
+  <view id='action'>
+    <view class='action-item' bindtap="billManage">
+       <image mode='aspectFit' src='/images/tongji.png'></image> 
+      <text>流水</text>
+    </view>
+    <view class='action-item addFlow' bindtap="toAddBill">
+      <image mode='aspectFit' src='/images/plus.png'></image>
+    </view>
+    <view class='action-item' bindtap="mySetting">
+       <image mode='aspectFit' src='/images/wo.png'></image> 
+      <text>我的</text>
+    </view>
+  </view>
+  <view class="userinfo">
+    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
+    <block wx:else>
+      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
+      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+    </block>
+  </view>
+  <view class="usermotto">
+    <text class="user-motto">{{motto}}</text>
+  </view>
+</view>

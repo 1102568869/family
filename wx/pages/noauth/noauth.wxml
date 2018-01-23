@@ -1,0 +1,4 @@
+<!--pages/noauth/noauth.wxml-->
+<view>
+<text>sorry 你还没有被邀请使用此小程序!</text>
+</view>

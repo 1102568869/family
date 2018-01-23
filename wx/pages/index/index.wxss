@@ -1,0 +1,153 @@
+/**index.wxss**/
+.userinfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.userinfo-avatar {
+  width: 128rpx;
+  height: 128rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+}
+
+.userinfo-nickname {
+  color: #aaa;
+}
+
+.usermotto {
+  margin-top: 200px;
+}
+
+
+view#action {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  background-color: #f6f6f6;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+view.action-item {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #939393;
+  letter-spacing: 2px;
+  margin: 0 15px;
+}
+
+view.action-item image {
+  width: 60rpx;
+  height: 60rpx;
+}
+
+view.addFlow {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #f6f6f6;
+}
+
+view.addFlow image {
+  width: 120rpx;
+  height: 120rpx;
+  padding-bottom: 20px;
+}
+
+.account-info {
+  width: 90%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.account-info view {
+  margin: 10rpx 0;
+}
+
+.account-info button {
+  margin: 20rpx 0;
+  width: 100%;
+}
+
+.budget-desc {
+  font-size: small;
+}
+
+.budget-number {
+  font-size: xx-large;
+  font-weight: bolder;
+  color: #3fb837;
+}
+
+view.inout {
+  display: flex;
+  flex-direction: row;
+}
+
+view.inout view {
+  margin: 0 50rpx;
+  font-size: small;
+  color: #a5a5a5;
+}
+
+view.inout text {
+  display: block;
+  padding: 5rpx 0;
+}
+
+.money {
+  color: #000;
+}
+
+.flow-list {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.flow {
+  width: 90%;
+}
+
+.flow-title {
+  color: #aaa;
+  height: 88rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flow-item {
+  display: flex;
+  height: 88rpx;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #c0c0c0;
+}
+
+.flow-item view {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+image.cate-img {
+  width: 50rpx;
+  height: 50rpx;
+  margin-right: 15px;
+}

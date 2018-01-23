@@ -41,3 +41,8 @@ spring:
       #username: 数据库帐号
       #password: 数据库密码
 
+wx:
+  appid: wx64a4064bb6ebcd71
+  #secret: 秘钥
+  urls:
+    auth: 'https://api.weixin.qq.com/sns/jscode2session?appid=${wx.appid}&secret=${wx.secret}&js_code=%s&grant_type=authorization_code'

@@ -1,0 +1,17 @@
+<!-- <view class="flow-list" wx:if="{{page.list && page.list.length >0}}"> -->
+<block wx:for="{{page.list}}" wx:key='bill.id' wx:for-item="bill">
+  <view class='flow' bindtap='toEditBill'>
+    <view class='flow-title'>
+      <text>{{bill.recordtime}}</text>
+      <text>{{bill.name}}</text>
+    </view>
+    <view class='flow-item' data-billId="{{bill.id}}">
+      <view>
+        <text wx:for="{{bill.tags}}" wx:key='tag.id' wx:for-item="tag">{{(tag.name||tag.comment)+'.'}}</text>
+      </view>
+      <text>{{bill.balanceName}}:{{bill.money}}</text>
+    </view>
+  </view>
+</block>
+
+<!-- </view> -->
