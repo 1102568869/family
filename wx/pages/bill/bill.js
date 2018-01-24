@@ -1,4 +1,4 @@
-import { formatTime} from '../../utils/util.js'
+import { formatTime } from '../../utils/util.js'
 import apis from '../../utils/url.js'
 
 import { ajaxGet, ajaxPost } from '../../utils/httpUtil.js'
@@ -13,7 +13,7 @@ Page({
     bill: {
       id: null,
       member: null,
-      balance:0,
+      balance: 0,
       recordtime: formatTime(new Date())
     },
     types: Array,
@@ -124,16 +124,16 @@ Page({
       }
     });
     ajaxPost(this.data.bill.id ? apis._bill_post_update : apis._bill_post_add, this.data.bill, (result) => {
-      if (result===true) {
+      if (result === true) {
         wx.showToast({
           mask: true,
           title: '提交成功!!!',
           icon: 'success',
           duration: 1000,
           success: function () {
-             wx.redirectTo({
-               url: '../billlist/billlist'
-             })
+            wx.redirectTo({
+              url: '../billlist/billlist'
+            })
           }
         })
       } else {
@@ -187,13 +187,43 @@ Page({
     ajaxGet(apis._billtype_get_all, (data) => this.setData({ types: data }));
   },
   getMembers: function () {
-    ajaxGet(apis._familymember_get_all, (data) => this.setData({ members: data }));
+    ajaxGet(apis._familymember_get_all, (data) => {
+      this.setData({ members: data })
+      if (this.data.bill.member==null){
+        return;
+      }
+      for (var k in this.data.members) {
+        if (this.data.members[k].id == this.data.bill.member) {
+          this.setData({ memberIndex: k })
+          console.info(k);
+          break;
+        }
+      }
+    });
   },
   getBalanceTypes: function () {
     ajaxGet(apis._bill_get_balanceTypes, (data) => this.setData({ balanceTypes: data }));
   },
   getTop10Tags: function () {
-    ajaxGet(apis._billtag_get_top10, (data) => this.setData({ tags: data }));
+    ajaxGet(apis._billtag_get_top10, (data) => {
+      this.setData({ tags: data })
+      if (this.data.bill.tagIds == null){
+        return;
+      }
+      var tags = this.data.tags;
+      var tagsWithCheck = [];
+      for (var k in tags) {
+        var tag = tags[k];
+        for (var j in this.data.bill.tagIds) {
+          if (tag.id == this.data.bill.tagIds[j]) {
+            tag.checked = true;
+            break;
+          }
+        }
+        tagsWithCheck.push(tag);
+      }
+      this.setData({ tags: tagsWithCheck });
+      });
   },
   selectMember: function (event) {
     let currentMemberIndex = event.detail.value;
@@ -202,6 +232,6 @@ Page({
     this.setData({ bill: bill, memberIndex: currentMemberIndex });
   },
   selectRecordTime: function (event) {
-    this.setData({ bill: { ...this.data.bill, recordtime: event.detail.value}});
+    this.setData({ bill: { ...this.data.bill, recordtime: event.detail.value } });
   },
 })

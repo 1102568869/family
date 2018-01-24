@@ -17,7 +17,32 @@ export function ajaxGet(url, success, fail, complete) {
       }
       console.info(e)
       if (e.statusCode == 401) {
+        // 登录
+        wx.login({
+          success: res => {
+            // 发送 res.code 到后台换取 openId, sessionKey, unionId
+            wx.request({
+              url: apis._login4Wx + '?code=' + res.code,
+              method: 'POST',
+              success: function (res) {
+                if (res.data) {
+                  app.globalData.token = res.data
+                } else {
+                  //TODO 微信账号与本系统用户打通
+                  wx.navigateTo({
+                    url: './pages/noauth/noauth'
+                  })
+                }
+              },
+              fail: function (e) {
+                console.info(e)
+                if (e.statusCode == 401) {
 
+                }
+              }
+            })
+          }
+        })
       }
     },
     complete: function (req) {
