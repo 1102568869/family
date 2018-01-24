@@ -13,7 +13,7 @@ App({
         var app = this;
         // 发送 res.code 到后台换取 openId, sessionKey, unionId
         wx.request({
-          url: apis.apis._login4Wx + '?code=' + res.code,
+          url: apis._login4Wx + '?code=' + res.code,
           method: 'POST',
           success: function (res) {
             if(res.data){

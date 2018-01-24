@@ -1,1 +1,17 @@
 /* pages/bill/bill.wxss */
+.item{
+  border-top: solid black 1px;
+}
+.btn-area {
+  width: 100%;
+}
+
+.btn-area button {
+  float: left;
+  width: 50%;
+}
+
+.btn-area button.submit {
+  color: white;
+  background-color: #93f;
+}

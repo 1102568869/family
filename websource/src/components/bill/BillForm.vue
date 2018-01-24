@@ -80,7 +80,7 @@
         created() {
             this.getTop10Tags();
             this.getTypes();
-            this.getMmebers();
+            this.getMembers();
             this.getBalanceTypes();
         },
         data() {
@@ -96,7 +96,7 @@
             getTypes() {
                 ajaxGet(apis._billtype_get_all, (data) => this.types = data);
             },
-            getMmebers() {
+            getMembers() {
                 ajaxGet(apis._familymember_get_all, (data) => this.members = data);
             },
             getBalanceTypes() {

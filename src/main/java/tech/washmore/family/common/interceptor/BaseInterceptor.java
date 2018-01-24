@@ -14,7 +14,7 @@ public abstract class BaseInterceptor {
         response.setCharacterEncoding(Charsets.UTF_8.toString());
         response.setStatus(HttpStatus.FORBIDDEN.value());
         response.setContentType(MediaType.APPLICATION_JSON_UTF8.toString());
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:8088");
 
         response.getWriter().print(JSON.toJSONString(ImmutableMap.of("message", "未授权用户")));
     }
@@ -23,7 +23,7 @@ public abstract class BaseInterceptor {
         response.setCharacterEncoding(Charsets.UTF_8.toString());
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType(MediaType.APPLICATION_JSON_UTF8.toString());
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:8088");
 
         response.getWriter().print(JSON.toJSONString(ImmutableMap.of("message", "未登录用户")));
     }
@@ -32,7 +32,7 @@ public abstract class BaseInterceptor {
         response.setCharacterEncoding(Charsets.UTF_8.toString());
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType(MediaType.APPLICATION_JSON_UTF8.toString());
-        response.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
+        response.setHeader("Access-Control-Allow-Origin", "http://localhost:8088");
 
         response.getWriter().print(JSON.toJSONString(ImmutableMap.of("message", String.format("不允许使用%s或%s关键字作为requestAttribute!", Constants.REQUEST_MEMBER_ACCOUNT, Constants.REQUEST_MEMBER_ID))));
     }

@@ -172,7 +172,7 @@
                 var vm = this;
                 setTimeout(() => {
                     ajaxPost(apis._verifyPassword, {password: this.pwdForm.oldPassword}, (result) => {
-                        if (!!result) {
+                        if (result===true) {
                             callback();
                         } else {
                             callback(new Error('原密码错误!'));
@@ -231,7 +231,7 @@
                 vm.$refs[formName].validate((valid) => {
                     if (valid) {
                         ajaxPost(apis._familymember_post_changePassword, this.pwdForm, (result) => {
-                            if (!!result) {
+                            if (result===true) {
                                 vm.$message({
                                     message: '密码修改成功!请重新登陆',
                                     duration: 1000,
@@ -271,7 +271,7 @@
                 vm.$refs[formName].validate((valid) => {
                     if (valid) {
                         ajaxPost(apis._familymember_post_update, this.formMember, (result) => {
-                            if (!!result) {
+                            if (result===true) {
                                 vm.$message({
                                     message: '成员资料编辑成功!',
                                     type: 'success',
@@ -308,7 +308,7 @@
                 vm.$refs[formName].validate((valid) => {
                     if (valid) {
                         ajaxPost(apis._familymember_post_add, this.formMember, (result) => {
-                            if (!!result) {
+                            if (result===true) {
                                 vm.$message({
                                     message: '成员添加成功!',
                                     type: 'success',

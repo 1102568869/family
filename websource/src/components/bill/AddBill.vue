@@ -71,7 +71,7 @@
                 vm.$refs[formName].validate((valid) => {
                     if (valid) {
                         ajaxPost(apis._bill_post_add, this.bill, (result) => {
-                            if (!!result) {
+                            if (result===true) {
                                 vm.$message({
                                     message: '账单添加成功!',
                                     type: 'success',

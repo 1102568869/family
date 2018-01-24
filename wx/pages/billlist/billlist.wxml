@@ -1,18 +1,20 @@
 <!-- <view class="flow-list" wx:if="{{page.list && page.list.length >0}}"> -->
-<block wx:for="{{page.list}}" wx:key='bill.id' wx:for-item="bill">
-  <view class='flow' bindtap='toEditBill' data-billid="{{bill.id}}">
-    <view class='flow-title'>
-      <text>{{bill.recordtime}}</text>
-      <text>{{bill.name}}</text>
-    </view>
-    <view class='flow-item' >
-      <view>
-        <text wx:if="{{bill.tags.length>0}}" wx:for="{{bill.tags}}" wx:key='tag.id' wx:for-item="tag">{{tag.name+'.'}}</text>
-        <text wx:if="{{bill.tags.length==0}}">{{bill.comment}}</text>
+<block>
+  <scroll-view scroll-y="true" bindscrolltolower="loadMore" class='scroll'>
+    <view class='flow' bindtap='toEditBill' data-billid="{{bill.id}}" wx:for="{{list}}" wx:key='bill.id' wx:for-item="bill">
+      <view class='flow-title'>
+        <text>{{bill.recordtime}}</text>
+        <text>{{bill.name}}</text>
       </view>
-      <text>{{bill.balanceName}}:{{bill.money}}</text>
+      <view class='flow-item'>
+        <view>
+          <text wx:if="{{bill.tags.length>0}}" wx:for="{{bill.tags}}" wx:key='tag.id' wx:for-item="tag">{{tag.name+'.'}}</text>
+          <text wx:if="{{bill.tags.length==0}}">{{bill.comment}}</text>
+        </view>
+        <text>{{bill.balanceName}}:{{bill.money}}</text>
+      </view>
     </view>
-  </view>
+    <text>{{moreMsg}}</text>
+  </scroll-view>
 </block>
-
 <!-- </view> -->

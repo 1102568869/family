@@ -59,7 +59,7 @@
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
                         ajaxPost(apis._login, this.form, (result) => {
-                            if (!!result) {
+                            if (result===true) {
                                 vm.$message({
                                     message: '登陆成功,页面跳转中!',
                                     duration: 1000,

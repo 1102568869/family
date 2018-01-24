@@ -55,10 +55,9 @@ Page({
       image: '/images/failed.png'
     })
   },
-  toAddBill: function () {
-    wx.showToast({
-      title: '敬请期待',
-      image: '/images/failed.png'
+  toAddBill: function (event) {
+    wx.navigateTo({
+      url: '../bill/bill'
     })
   },
   getUserInfo: function(e) {

@@ -1,4 +1,5 @@
-import apis from '../../utils/url.js'
+import apis  from '../../utils/url.js'
+import { ajaxGet } from '../../utils/httpUtil.js'
 const app = getApp()
 // pages/billlist/billlist.js
 Page({
@@ -6,18 +7,20 @@ Page({
    * 页面的初始数据
    */
   data: {
-    page:{
-      list:[]
+    page: {
     },
-    pageSize: 1000,
-    pageNo: 1
+    list: [],
+    pageSize: 8,
+    pageNo: 1,
+    isloading: false,
+    moreMsg: '',
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-   
+
   },
 
   /**
@@ -68,29 +71,41 @@ Page({
   onShareAppMessage: function () {
 
   },
-  toEditBill: function (event){
-    // wx.navigateTo({
-    //   url: '../bill/bill?id=' + event.currentTarget.dataset.billid
-    // })
+  toEditBill: function (event) {
+    wx.navigateTo({
+      url: '../bill/bill?id=' + event.currentTarget.dataset.billid
+    })
+  },
+  loadMore: function (event) {
+    console.info("拉到底了");
+    if (this.data.page.lastPage === true) {
+      this.setData({ moreMsg: '没有更多了%>_<%' });
+      return;
+    } else {
+      this.setData({ moreMsg: '正在加载更多...' });
+    }
+    this.searchPage();
   },
   searchPage: function () {
-    var vm = this;
-    wx.request({
-      url: apis.apis._bill_get_page + '?pageNo=' + vm.data.pageNo + '&pageSize=' + vm.data. pageSize ,
-      method: 'GET',
-      header: {
-        'family_token': app.globalData.token
-      },
-      success: function (res) {
-        console.info(res)
-        vm.setData({ page:res.data })
-      },
-      fail: function (e) {
-        console.info(e)
-        if (e.statusCode == 401) {
-
-        }
+    if (this.data.isloading === true) {
+      return;
+    }
+    wx.showNavigationBarLoading();
+    this.setData({ isloading: true });
+    ajaxGet(apis._bill_get_page + '?pageNo=' + this.data.pageNo + '&pageSize=' + this.data.pageSize, (data) => {
+      let more = this.data.list;
+      for (var k in data.list) {
+        more.push(data.list[k]);
       }
+      this.setData({ page: data, list: more });
+      if (this.data.page.lastPage === false) {
+        this.setData({ pageNo: data.nextPageNo, moreMsg: '' });
+      } else {
+        this.setData({ moreMsg: '没有更多了%>_<%' });
+      }
+    }, null, (req) => {
+      this.setData({ isloading: false });
+      wx.hideNavigationBarLoading();
     })
   }
 })

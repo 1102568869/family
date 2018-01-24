@@ -108,7 +108,7 @@
         <snapshotRepository>
             <id>deploymentRepo</id>
             <name>washmore_snapshots</name>
-            <url>http://www.washmore.tech:8081/nexus/content/repositories/snapshots/</url>
+            <url>http://maven.washmaore.tech/nexus/content/repositories/snapshots/</url>
             <uniqueVersion>false</uniqueVersion>
         </snapshotRepository>
     </distributionManagement>

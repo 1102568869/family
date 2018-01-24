@@ -1,7 +1,50 @@
 <form bindsubmit="formSubmit" bindreset="formReset">
-
+  <view class='item'>
+    <view>金额</view>
+    <input type='digit'  value="{{bill.money||''}}" name="money" placeholder="请输入金额" />
+  </view>
+  <view class='item'>
+    <view>事项</view>
+    <input type='text'   value="{{bill.name||''}}" name="name" placeholder="请输入事项" />
+  </view>
+  <view class='item'>
+    <view>账单类型</view>
+    <radio-group name="type">
+      <label class="radio" wx:key="{{item.id}}" wx:for="{{types}}">
+        <radio value="{{item.id}}" checked="{{bill.type == item.id}}" />{{item.name}}
+      </label>
+    </radio-group>
+  </view>
+  <view class='item'>
+    <view class="section__title">经手人</view>
+    <picker name='member' mode="selector" bindchange="selectMember" value="{{memberIndex}}" range="{{members}}" range-key="name">
+      <view class="picker">
+        当前选择：{{members[memberIndex].name}}
+      </view>
+    </picker>
+  </view>
+    <view class='item'>
+    <view class="section__title">经手时间</view>
+    <picker name='member' mode ="date" bindchange="selectRecordTime"  start="2018-01-01" end ="2018-12-30" >
+      <view class="picker">
+        当前选择：{{bill.recordtime}}
+      </view>
+    </picker>
+  </view>
+  <view class='item'>
+    <view class="section__title">补充说明</view>
+    <textarea name='comment' rows='6' auto-height placeholder="请输入补充说明" value="{{bill.comment}}"/>
+  </view>
+  <view class='item'>
+    <checkbox-group bindchange="checkboxChange" name='tagIds'>
+      <view class="section__title">标签</view>
+      <label class="checkbox" wx:key="{{item.id}}" wx:for="{{tags}}">
+        <checkbox value="{{item.id}}" checked="{{item.checked}}" />{{item.name}}
+      </label>
+    </checkbox-group>
+  </view>
   <view class="btn-area">
-    <button formType="submit">Submit</button>
-    <button formType="reset">Reset</button>
+    <button formType="submit" class='submit'>提交账单</button>
+    <button formType="reset">清空内容</button>
   </view>
 </form>
