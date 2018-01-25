@@ -12,12 +12,10 @@ import tech.washmore.family.common.Constants;
 import tech.washmore.family.common.uc.MemeryTokenManger;
 import tech.washmore.family.logic.GetFamilymemberByAccountAndPasswordLogic;
 import tech.washmore.family.model.Familymember;
-import tech.washmore.family.service.FamilymemberService;
 import tech.washmore.family.utils.CookieUtil;
 import tech.washmore.family.utils.OkHttpUtil;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
@@ -47,22 +45,22 @@ public class LoginController {
      * @throws Exception
      */
     @PostMapping({"/login4Wx"})
-    public String login4Wx(@RequestParam String code) throws Exception {
+    public String login4Wx(@RequestParam String code) {
         JSONObject result = JSON.parseObject(OkHttpUtil.getNewCall(String.format(wxAuthUrl, code)));
         String openId = result.getString("openid");
         String token = memeryTokenManger.createToken4Wx(openId);
-        LOGGER.info(JSON.toJSONString(result, true));
         return token;
     }
 
     @GetMapping({"/verifyToken"})
-    public Familymember verifyToken() throws Exception {
+    public Familymember verifyToken() {
         Cookie token = CookieUtil.getCurrentCookieByName(Constants.COOKIE_TOKEN_KEY);
         return memeryTokenManger.getLoginMemberByToken(token.getValue());
     }
 
     @PostMapping({"/verifyPassword"})
-    public boolean verifyPassword(@RequestBody Familymember oldPasswordMember, @RequestAttribute(Constants.REQUEST_MEMBER_ACCOUNT) String account) throws Exception {
+    public boolean verifyPassword(@RequestBody Familymember oldPasswordMember,
+                                  @RequestAttribute(Constants.REQUEST_MEMBER_ACCOUNT) String account) {
         if (oldPasswordMember.getPassword() == null) {
             return false;
         }

@@ -1,3 +1,4 @@
+import apis from './url.js'
 const app = getApp()
 
 export function ajaxGet(url, success, fail, complete) {
@@ -5,7 +6,7 @@ export function ajaxGet(url, success, fail, complete) {
     url: url,
     method: 'GET',
     header: {
-      'family_token': app.globalData.token||''
+      'family_token': app.globalData.token || ''
     },
     success: function (res) {
       console.info(res);
@@ -15,37 +16,12 @@ export function ajaxGet(url, success, fail, complete) {
       if (fail) {
         fail(e);
       }
-      console.info(e)
-      if (e.statusCode == 401) {
-        // 登录
-        wx.login({
-          success: res => {
-            // 发送 res.code 到后台换取 openId, sessionKey, unionId
-            wx.request({
-              url: apis._login4Wx + '?code=' + res.code,
-              method: 'POST',
-              success: function (res) {
-                if (res.data) {
-                  app.globalData.token = res.data
-                } else {
-                  //TODO 微信账号与本系统用户打通
-                  wx.navigateTo({
-                    url: './pages/noauth/noauth'
-                  })
-                }
-              },
-              fail: function (e) {
-                console.info(e)
-                if (e.statusCode == 401) {
-
-                }
-              }
-            })
-          }
-        })
-      }
     },
     complete: function (req) {
+      console.info(req);
+      if (req.statusCode == 401) {
+        relogin();
+      }
       if (complete) {
         complete(req);
       }
@@ -56,7 +32,7 @@ export function ajaxPost(url, data, success, fail, complete) {
   wx.request({
     url: url,
     method: 'POST',
-    data:data||{},
+    data: data || {},
     header: {
       'family_token': app.globalData.token || ''
     },
@@ -69,11 +45,12 @@ export function ajaxPost(url, data, success, fail, complete) {
         fail(e);
       }
       console.info(e)
-      if (e.statusCode == 401) {
-
-      }
     },
     complete: function (req) {
+      console.info(req);
+      if (req.statusCode == 401) {
+        relogin();
+      }
       if (complete) {
         complete(req);
       }
@@ -81,39 +58,40 @@ export function ajaxPost(url, data, success, fail, complete) {
   })
 };
 
-function getDate(str) {
-  try {
-    return new Date(Date.parse(new Date(str)));
-  } catch (e) {
-  }
-  return null;
-}
-
-function forEachReplaceDateByKey(obj) {
-  if (obj instanceof Array) {
-    for (var i in obj) {
-      forEachReplaceDateByKey(obj[i]);
+function relogin() {
+  wx.showToast({
+    mask: true,
+    title: '登录失效重连!',
+    icon: 'loading',
+    duration: 3000,
+    success: function () {
+      // 登录
+      wx.login({
+        success: res => {
+          // 发送 res.code 到后台换取 openId, sessionKey, unionId
+          ajaxPost(apis._login4Wx + '?code=' + res.code,{},(data)=>{
+            if (data) {
+              app.globalData.token = data
+              wx.showToast({
+                mask: true,
+                title: '重新登陆成功!',
+                icon: 'success',
+                duration: 3000,
+                success: function () {
+                  wx.reLaunch({
+                    url: '../index/index',
+                  })
+                }
+              })
+            } else {
+              //TODO 微信账号与本系统用户打通
+              wx.navigateTo({
+                url: '..//noauth/noauth'
+              })
+            }
+          })
+        }
+      })
     }
-  } else if (obj instanceof Object) {
-    for (var k in obj) {
-      if (dateReg.test(obj[k])) {
-        obj[k] = getDate(obj[k]) || obj[k];
-      }
-    }
-  }
-}
-
-
-function getFinalRequestUrl(url) {
-  console.info('process.env.NODE_ENV', process.env.NODE_ENV, "url", url);
-  if (url == null || url.length == 0) {
-    throw "url is null or empty!";
-  }
-  if (url.indexOf('http') == 0) {
-    return url;
-  }
-  if (url.indexOf('/') != 0) {
-    url = '/' + url;
-  }
-  return pre + url;
+  })
 }

@@ -15,8 +15,6 @@ import java.io.IOException;
 
 @Controller
 public class WelcomeController {
-    @Autowired
-    private MemeryTokenManger memeryTokenManger;
 
     @GetMapping({"/", ""})
     public String welcome() {
