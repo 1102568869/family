@@ -1,12 +1,13 @@
 package tech.washmore.family.common.uc;
 
+import org.springframework.beans.BeanUtils;
 import tech.washmore.family.model.Familymember;
 
 /**
  * @author Washmore
  * @version V1.0
- * @summary TODO
- * @Copyright (c) 2018, Lianjia Group All Rights Reserved.
+ * @summary 登录用户model
+ * @Copyright (c) 2018, washmore.tech All Rights Reserved.
  * @since 2018/1/17
  */
 public class LoginFamilyMember extends Familymember {
@@ -17,13 +18,7 @@ public class LoginFamilyMember extends Familymember {
     }
 
     public LoginFamilyMember(Familymember familymember) {
-        this.setId(familymember.getId());
-        this.setAccount(familymember.getAccount());
-        this.setName(familymember.getName());
-        this.setMobile(familymember.getMobile());
-        this.setEmail(familymember.getEmail());
-        this.setQq(familymember.getQq());
-        this.setImage(familymember.getImage());
+        BeanUtils.copyProperties(familymember,this);
     }
 
     public String getToken() {

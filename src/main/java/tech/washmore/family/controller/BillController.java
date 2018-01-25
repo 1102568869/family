@@ -1,37 +1,32 @@
 package tech.washmore.family.controller;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.ModelAndView;
 import tech.washmore.family.common.enums.BalanceType;
-import tech.washmore.family.model.Bill;
 import tech.washmore.family.model.Billtag;
 import tech.washmore.family.model.Page;
 import tech.washmore.family.model.view.BillView;
 import tech.washmore.family.service.BillService;
 import tech.washmore.family.service.BilltagService;
-import tech.washmore.family.service.BilltypeService;
-import tech.washmore.family.service.FamilymemberService;
 import tech.washmore.family.utils.PageUtil;
 
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * @author Washmore
+ * @version V1.0
+ * @summary 账单控制器
+ * @Copyright (c) 2018, washmore.tech All Rights Reserved.
+ * @since 2018/1/15
+ */
 @RestController
 @RequestMapping("/bill")
 public class BillController {
@@ -40,6 +35,12 @@ public class BillController {
     @Autowired
     private BilltagService billtagService;
 
+    /**
+     * @summary 添加账单
+     * @version V1.0
+     * @author Washmore
+     * @since 2018/1/15
+     */
     @PostMapping("/post/add")
     public boolean add(@Validated @RequestBody BillView bill, BindingResult result) {
         if (result.hasErrors()) {
@@ -49,6 +50,12 @@ public class BillController {
         return billService.addBill(bill);
     }
 
+    /**
+     * @summary 修改账单
+     * @version V1.0
+     * @author Washmore
+     * @since 2018/1/15
+     */
     @PostMapping("/post/update")
     public boolean update(@Validated @RequestBody BillView bill, BindingResult result) {
         if (result.hasErrors()) {
@@ -57,14 +64,28 @@ public class BillController {
         return billService.updateBill(bill);
     }
 
+    /**
+     * @summary 删除账单
+     * @version V1.0
+     * @author Washmore
+     * @since 2018/1/15
+     */
     @PostMapping("/post/delete")
     public boolean delete(@RequestParam int id) {
         boolean result = billService.deleteBill(id);
         return result;
     }
 
+    /**
+     * @summary 分页查询账单
+     * TODO 现在是内存分页...并且是1+N查询...真·抠脚
+     * @version V1.0
+     * @author Washmore
+     * @since 2018/1/15
+     */
     @GetMapping("/get/page")
-    public Page<BillView> getPage(@RequestParam(defaultValue = "10") int pageSize, @RequestParam(defaultValue = "1") int pageNo) {
+    public Page<BillView> getPage(@RequestParam(defaultValue = "10") int pageSize,
+                                  @RequestParam(defaultValue = "1") int pageNo) {
         Page<BillView> page = PageUtil.fillPage(billService.getAllBillViews(), pageSize, pageNo);
         page.getList().forEach(b -> {
             b.setTags(billtagService.getBilltagsByBillId(b.getId()));
@@ -72,6 +93,12 @@ public class BillController {
         return page;
     }
 
+    /**
+     * @summary 账单详情查询
+     * @version V1.0
+     * @author Washmore
+     * @since 2018/1/15
+     */
     @GetMapping("/get/item")
     public BillView getBillView(@RequestParam int id) {
         BillView bill = billService.getBillViewById(id);
@@ -83,11 +110,13 @@ public class BillController {
         return bill;
     }
 
-    @GetMapping("/get/tags")
-    public List<Billtag> getTagsOfBill(@RequestParam int billId) {
-        return billtagService.getBilltagsByBillId(billId);
-    }
 
+    /**
+     * @summary 查询所有的收支类型枚举
+     * @version V1.0
+     * @author Washmore
+     * @since 2018/1/15
+     */
     @GetMapping("/get/balanceTypes")
     public List getBalanceTypes() {
         return Stream.of(BalanceType.values()).map(t -> {

@@ -15,8 +15,10 @@ import java.io.IOException;
 
 /**
  * @author Washmore
- * @version 1.0
- * @since 2015-01-01
+ * @version V1.0
+ * @summary 数据源配置, tomcat-pool作为springboot的内置数据连接池之一,可以被自动装配(详见DataSourceBuilder类),仅需在此配置mybatis的相关内容
+ * @Copyright (c) 2018, washmore.tech All Rights Reserved.
+ * @since 2018/1/15
  */
 @Configuration
 public class DataSourceConfig {
@@ -56,7 +58,10 @@ public class DataSourceConfig {
     }
 
     /**
-     * @return DataSourceTransactionManager
+     * @summary 事务管理器, 在需要事务管理的方法或者类上使用 @Transactional 生效
+     * @version V1.0
+     * @author Washmore
+     * @since 2018/1/25
      */
     @Bean(name = "transactionManager")
     public DataSourceTransactionManager dataSourceTransactionManager() {

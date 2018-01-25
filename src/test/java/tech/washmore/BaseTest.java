@@ -15,5 +15,5 @@ import org.springframework.test.context.web.WebAppConfiguration;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @WebAppConfiguration  //开启web上下文测试
-public class BaseTest {
+public abstract class BaseTest {
 }

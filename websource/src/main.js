@@ -5,11 +5,11 @@ import App from './App'
 import router from './router'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-import url from '@/common/url'
+import apis from '@/common/url'
 import consts from '@/common/consts'
 
-window.apis = url.apis;
-window.consts = consts.consts;
+window.apis = apis;
+window.consts = consts;
 
 
 Vue.config.productionTip = false

@@ -1,9 +1,6 @@
 package tech.washmore.family.common;
 
-import org.apache.commons.lang3.StringUtils;
-import org.hibernate.validator.HibernateValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.core.convert.support.GenericConversionService;
@@ -11,19 +8,17 @@ import org.springframework.web.bind.support.ConfigurableWebBindingInitializer;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 
 import javax.annotation.PostConstruct;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 /**
- * 字符串转日期的转换器
- *
- * @author byshome
- * @version $Id: StringToDateConverter.java, v 0.1 2015年9月24日 下午7:19:41 byshome Exp $
+ * @author Washmore
+ * @version V1.0
+ * @summary 日期转换器, 用于处理请求中的日期字符串转化为日期对象
+ * @Copyright (c) 2018, washmore.tech All Rights Reserved.
+ * @since 2018/1/15
  */
 @Configuration
 public class StringToDateConverter implements Converter<String, Date> {

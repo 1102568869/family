@@ -6,7 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
- * Created by Washmore on 2017/7/7.
+ * @author Washmore
+ * @version V1.0
+ * @summary 继承自SqlSessionDaoSupport的基础Dao
+ * @Copyright (c) 2018, washmore.tech All Rights Reserved.
+ * @since 2018/1/18
  */
 @Repository
 public class BaseDao extends SqlSessionDaoSupport {

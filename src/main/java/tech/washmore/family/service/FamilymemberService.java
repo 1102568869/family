@@ -25,6 +25,7 @@ public class FamilymemberService {
     @Autowired
     private ChangePasswordLogic changePasswordLogic;
 
+    @Deprecated
     public Familymember getFirstFamilymember() {
         return getFirstFamilymemberLogic.getFirstFamilymember();
     }

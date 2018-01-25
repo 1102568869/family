@@ -1,40 +1,31 @@
 package tech.washmore.family.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.CacheControl;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import tech.washmore.family.common.interceptor.LoginInterceptor;
 
-import java.time.LocalDate;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author zhaojian
- * @version v1
- * @since 2016-11-30
+ * @author Washmore
+ * @version V1.0
+ * @summary MVC相关配置
+ * @Copyright (c) 2018, washmore.tech All Rights Reserved.
+ * @since 2018/1/15
  */
 @Configuration
 @ConditionalOnWebApplication
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
-//    @Override
-//    public void addCorsMappings(CorsRegistry registry) {
-//        registry.addMapping("/**")
-//                .allowedOrigins("http://localhost:8080")
-//                .allowCredentials(true)
-//                .allowedMethods("GET", "POST", "DELETE", "PUT")
-//                .maxAge(3600);
-//    }
+
     private CorsConfiguration buildConfig() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.addAllowedOrigin("http://localhost:8088");
@@ -49,27 +40,43 @@ public class WebMvcConfig extends WebMvcConfigurerAdapter {
         return corsConfiguration;
     }
 
+
     /**
-     * 跨域过滤器
-     * @return
+     * @summary 支持跨域请求的配置,
+     * NOTICE:注意此配置仅适用于开发环境前端调试!!!请确保通过某种手段在生产环境强制覆盖掉spring.profiles.active以保证使此配置失效
+     * @version V1.0
+     * @author Washmore
+     * @since 2018/1/15
      */
     @Bean
+    @Profile("development")
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", buildConfig()); // 4
+        source.registerCorsConfiguration("/**", buildConfig());
         return new CorsFilter(source);
     }
 
+    /**
+     * @summary 静态资源处理器
+     * @version V1.0
+     * @author Washmore
+     * @since 2018/1/15
+     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         CacheControl cacheControl = CacheControl.maxAge(8, TimeUnit.HOURS);
-        registry.addResourceHandler("/**").addResourceLocations("classpath:/pages/");//.setCacheControl(cacheControl);
+        registry.addResourceHandler("/**").addResourceLocations("classpath:/pages/").setCacheControl(cacheControl);
     }
 
-
+    /**
+     * @summary 拦截器管理
+     * @version V1.0
+     * @author Washmore
+     * @since 2018/1/15
+     */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(loginInterceptor()).addPathPatterns("/**").excludePathPatterns("/", "", "/static/**", "/login","/login4Wx");
+        registry.addInterceptor(loginInterceptor()).addPathPatterns("/**").excludePathPatterns("/", "", "/static/**", "/login", "/login4Wx");
         super.addInterceptors(registry);
     }
 

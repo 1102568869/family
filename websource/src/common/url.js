@@ -1,4 +1,4 @@
-const apis = {
+export default {
     _bill_post_add: '/bill/post/add',
     _bill_post_update: '/bill/post/update',
     _bill_post_delete: '/bill/post/delete',
@@ -19,7 +19,4 @@ const apis = {
     _verifyToken: '/verifyToken',
     _verifyPassword: '/verifyPassword',
     _: '/'
-}
-export default {
-    apis
 }

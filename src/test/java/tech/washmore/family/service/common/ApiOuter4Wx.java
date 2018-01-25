@@ -1,4 +1,4 @@
-package tech.washmore.family.service;
+package tech.washmore.family.service.common;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class ApiOuter4Wx extends BaseTest {
     public void testOne() throws Exception {
         StringBuffer sb = new StringBuffer("");
         sb.append("const HOST = 'http://localhost:8888';\n");
-        sb.append("const apis = {\n");
+        sb.append("export default {\n");
         Map<RequestMappingInfo, HandlerMethod> map = this.handlerMapping.getHandlerMethods();
         Iterator<?> iterator = map.entrySet().iterator();
         while (iterator.hasNext()) {
@@ -46,10 +46,7 @@ public class ApiOuter4Wx extends BaseTest {
             }
         }
         sb.setLength(sb.length() - 2);
-        sb.append("\n}\n" +
-                "export default {\n" +
-                "    apis\n" +
-                "}");
+        sb.append("\n}");
         System.out.println(sb.toString());
         String rootpath = applicationContext.getClassLoader().getResource("").getPath();
         String root = rootpath.substring(0, rootpath.lastIndexOf("/family")) + "/family";

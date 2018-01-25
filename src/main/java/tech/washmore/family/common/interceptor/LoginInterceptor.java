@@ -15,6 +15,13 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * @author Washmore
+ * @version V1.0
+ * @summary 登录拦截器
+ * @Copyright (c) 2018, washmore.tech All Rights Reserved.
+ * @since 2018/1/17
+ */
 public class LoginInterceptor extends BaseInterceptor implements HandlerInterceptor {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginInterceptor.class);
     @Autowired
@@ -23,14 +30,16 @@ public class LoginInterceptor extends BaseInterceptor implements HandlerIntercep
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
 
+        //禁止保留参数名传入
         Object memberAccount = request.getAttribute(Constants.REQUEST_MEMBER_ACCOUNT);
         Object memberId = request.getAttribute(Constants.REQUEST_MEMBER_ID);
-
         if (!request.getRequestURI().equals("/error") && (memberAccount != null || memberId != null)) {
             errorRequestParamOfLoginUserCode(response);
             return false;
         }
+
         //FIXME 兼容微信小程序,未作充分测试验证
+        //微信小程序没有cookie,所以改为从header传递token,使用nginx或apache等作为负载工具的话注意转发此自定义header
         String token = request.getHeader(Constants.COOKIE_TOKEN_KEY);
         if (StringUtils.isEmpty(token)) {
             Cookie tokenCk = CookieUtil.getCurrentCookieByName(Constants.COOKIE_TOKEN_KEY);
@@ -38,6 +47,7 @@ public class LoginInterceptor extends BaseInterceptor implements HandlerIntercep
                 token = tokenCk.getValue();
             }
         }
+
         if (StringUtils.isNotEmpty(token)) {
             Familymember loginFamilyMember = memeryTokenManger.getLoginMemberByToken(token);
             if (loginFamilyMember == null) {
@@ -45,10 +55,10 @@ public class LoginInterceptor extends BaseInterceptor implements HandlerIntercep
                 unauthorized(response);
                 return false;
             }
+
+            //登陆成功后,set两个快捷获取登录用户的参数,在controller中使用@RequestAttribute(Constants.REQUEST_MEMBER_ID)的形式获取
             request.setAttribute(Constants.REQUEST_MEMBER_ACCOUNT, loginFamilyMember.getAccount());
             request.setAttribute(Constants.REQUEST_MEMBER_ID, loginFamilyMember.getId());
-
-            //TODO 挤掉当前成员在其他客户端的登陆
 
             LOGGER.info("--request:[{}],ip:[{}],userName:[{}],userAccount:[{}]", request.getRequestURI(), request.getRemoteAddr(), loginFamilyMember.getName(), loginFamilyMember.getAccount());
             return true;

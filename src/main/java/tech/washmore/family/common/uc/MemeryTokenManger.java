@@ -18,8 +18,8 @@ import java.util.stream.Collectors;
 /**
  * @author Washmore
  * @version V1.0
- * @summary TODO
- * @Copyright (c) 2018, Lianjia Group All Rights Reserved.
+ * @summary 基于内存实现的token管理器(或许该写一个接口类用于规范, 然后给不同的实现 ? 内存版的显然不适用于多台节点负载的情况)
+ * @Copyright (c) 2018, washmore.tech All Rights Reserved.
  * @since 2018/1/17
  */
 @Component

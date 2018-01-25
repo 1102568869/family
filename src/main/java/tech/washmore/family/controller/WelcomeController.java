@@ -1,18 +1,14 @@
 package tech.washmore.family.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
-import tech.washmore.family.common.Constants;
-import tech.washmore.family.common.uc.MemeryTokenManger;
-import tech.washmore.family.model.Familymember;
-import tech.washmore.family.utils.CookieUtil;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-
+import org.springframework.web.bind.annotation.GetMapping;
+/**
+ * @author Washmore
+ * @version V1.0
+ * @summary web前端入口
+ * @Copyright (c) 2018, washmore.tech All Rights Reserved.
+ * @since 2018/1/15
+ */
 @Controller
 public class WelcomeController {
 

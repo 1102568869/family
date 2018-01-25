@@ -61,11 +61,16 @@ create table familymember
 	updater varchar(50) default 'washmore' null,
 	updateAt datetime null,
 	image varchar(200) default '@/assets/touxiang.png' null,
+	openId varchar(100) null,
 	constraint FamilyMember_account_uindex
-		unique (account)
+	unique (account),
+	constraint familymember_openId_uindex
+	unique (openId)
 )
-comment '家庭成员' engine=InnoDB
+	comment '家庭成员' engine=InnoDB
 ;
+
+
 
 INSERT INTO family.billtype (id, name, comment) VALUES (1, '衣', NULL);
 INSERT INTO family.billtype (id, name, comment) VALUES (2, '食', NULL);

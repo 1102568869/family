@@ -3,8 +3,8 @@ package tech.washmore.family.common.enums;
 /**
  * @author Washmore
  * @version V1.0
- * @summary TODO
- * @Copyright (c) 2018, Lianjia Group All Rights Reserved.
+ * @summary 收支类型枚举
+ * @Copyright (c) 2018, washmore.tech All Rights Reserved.
  * @since 2018/1/15
  */
 public enum BalanceType {

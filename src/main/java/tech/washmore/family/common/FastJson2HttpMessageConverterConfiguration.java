@@ -18,8 +18,8 @@ import java.util.Arrays;
 /**
  * @author Washmore
  * @version V1.0
- * @summary TODO
- * @Copyright (c) 2018, Lianjia Group All Rights Reserved.
+ * @summary 配置FastJsonHttpMessageConverter作为controller的默认json解析器(替代jackson)
+ * @Copyright (c) 2018, washmore.tech All Rights Reserved.
  * @since 2018/1/16
  */
 @Configuration
@@ -42,6 +42,7 @@ public class FastJson2HttpMessageConverterConfiguration {
                 SerializerFeature.WriteClassName,
                 SerializerFeature.WriteMapNullValue
         );
+        //null给到前台为空字符串""
         ValueFilter valueFilter = new ValueFilter() {//5
             //o 是class
             //s 是key值
@@ -55,6 +56,7 @@ public class FastJson2HttpMessageConverterConfiguration {
         };
         fastJsonConfig.setSerializeFilters(valueFilter);
         SerializeConfig serializeConfig = SerializeConfig.getGlobalInstance();
+        //指定double的格式,防止被科学计数法
         serializeConfig.put(Double.class, new DoubleSerializer("#.####"));
         fastJsonConfig.setSerializeConfig(serializeConfig);
 
