@@ -18,7 +18,7 @@
                     prop="money"
                     label="金额"
                     :formatter="formatMoney"
-                    width="80">
+                    width="100">
             </el-table-column>
             <el-table-column
                     prop="typeName"
@@ -115,6 +115,9 @@
                 });
             },
             formatMoney(row, column, cellValue) {
+                if(row.balance==1){
+                    return '(๑•̀ㅂ•́)و✧';
+                }
                 return cellValue;
             },
             formatComment(comment) {

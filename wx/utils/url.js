@@ -1,5 +1,7 @@
 const HOST = 'http://localhost:8888';
-const apis = {
+//const HOST = 'https://washmore.hellofqs.com';
+
+export default {
     _bill_post_add: HOST + '/bill/post/add',
     _bill_post_update: HOST + '/bill/post/update',
     _bill_post_delete: HOST + '/bill/post/delete',
@@ -20,7 +22,4 @@ const apis = {
     _verifyToken: HOST + '/verifyToken',
     _verifyPassword: HOST + '/verifyPassword',
     _: HOST + '/'
-}
-export default {
-    apis
 }
