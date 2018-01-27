@@ -2,6 +2,7 @@ import { formatTime } from '../../utils/util.js'
 import apis from '../../utils/url.js'
 
 import { ajaxGet, ajaxPost } from '../../utils/httpUtil.js'
+
 const app = getApp()
 // pages/bill/bill.js
 Page({
@@ -189,7 +190,7 @@ Page({
   getMembers: function () {
     ajaxGet(apis._familymember_get_all, (data) => {
       this.setData({ members: data })
-      if (this.data.bill.member==null){
+      if (this.data.bill.member == null) {
         return;
       }
       for (var k in this.data.members) {
@@ -207,7 +208,7 @@ Page({
   getTop10Tags: function () {
     ajaxGet(apis._billtag_get_top10, (data) => {
       this.setData({ tags: data })
-      if (this.data.bill.tagIds == null){
+      if (this.data.bill.tagIds == null) {
         return;
       }
       var tags = this.data.tags;
@@ -223,15 +224,29 @@ Page({
         tagsWithCheck.push(tag);
       }
       this.setData({ tags: tagsWithCheck });
-      });
+    });
   },
   selectMember: function (event) {
+    console.info(this.data.bill);
     let currentMemberIndex = event.detail.value;
     let bill = this.data.bill;
     bill.member = this.data.members[currentMemberIndex].id;
     this.setData({ bill: bill, memberIndex: currentMemberIndex });
+    console.info(this.data.bill);
   },
   selectRecordTime: function (event) {
     this.setData({ bill: { ...this.data.bill, recordtime: event.detail.value } });
+  },
+  inputName: function (event) {
+    this.setData({ bill: { ...this.data.bill, name: event.detail.value } });
+  },
+  inputMoney: function (event) {
+    this.setData({ bill: { ...this.data.bill, money: event.detail.value } });
+  },
+  inputComment: function (event) {
+    this.setData({ bill: { ...this.data.bill, comment: event.detail.value } });
+  },
+  changeType: function (event) {
+    this.setData({ bill: { ...this.data.bill, type: event.detail.value } });
   },
 })

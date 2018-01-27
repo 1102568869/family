@@ -1,5 +1,5 @@
-const HOST = 'http://localhost:8888';
-//const HOST = 'https://washmore.hellofqs.com';
+//const HOST = 'http://localhost:8888';
+const HOST = 'https://washmore.hellofqs.com';
 
 export default {
     _bill_post_add: HOST + '/bill/post/add',
