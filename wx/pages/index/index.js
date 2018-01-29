@@ -1,6 +1,7 @@
 //index.js
 //获取应用实例
 const app = getApp()
+import { login } from '../../utils/httpUtil.js'
 
 Page({
   data: {
@@ -16,6 +17,23 @@ Page({
     })
   },
   onLoad: function () {
+    var vm = this;
+    // 登录
+    if (app.globalData.token){
+      //啥也没发生
+    }else{
+      login((data) => {
+        if (data) {
+          app.globalData.token = data;
+        } else {
+          //TODO 微信账号与本系统用户打通
+          wx.navigateTo({
+            url: '../noauth/noauth'
+          })
+        }
+      });
+    }
+
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,

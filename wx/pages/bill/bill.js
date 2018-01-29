@@ -33,7 +33,6 @@ Page({
     this.getBalanceTypes();
     this.getTop10Tags();
     this.setData({ bill: { ...this.data.bill, id: options.id } });
-    console.log('eeee');
   },
 
   /**
