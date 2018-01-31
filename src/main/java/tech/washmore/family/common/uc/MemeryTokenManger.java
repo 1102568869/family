@@ -28,6 +28,9 @@ public class MemeryTokenManger {
     private static final Map<String, LoginFamilyMember> loginMembers = new HashMap<>();
     private static final long EXPIRE_HALF_HOUR = 30L * 60 * 1000;
 
+    public static final String SOURCE_WX_XCX = "wx_xcx";
+    public static final String SOURCE_WEB_PC = "web_pc";
+
     @Autowired
     private GetFamilymemberByAccountAndPasswordLogic getFamilymemberByAccountAndPasswordLogic;
     @Autowired
@@ -67,7 +70,7 @@ public class MemeryTokenManger {
             LOGGER.info("MemeryTokenManger-createTokenWithSingleFlag:account[{}]验证失败!", account);
             return null;
         }
-        return this.generateToken(singleFlag, familymember);
+        return this.generateToken(singleFlag, familymember, SOURCE_WEB_PC);
     }
 
 
@@ -77,23 +80,26 @@ public class MemeryTokenManger {
             LOGGER.info("MemeryTokenManger-createToken4Wx:openId[{}]验证失败!", openId);
             return null;
         }
-        return this.generateToken(true, familymember);
+        return this.generateToken(true, familymember, SOURCE_WX_XCX);
     }
 
 
-    private String generateToken(boolean singleFlag, Familymember familymember) {
+    private String generateToken(boolean singleFlag, Familymember familymember, String source) {
         LoginFamilyMember loginFamilyMember = new LoginFamilyMember(familymember);
         String token = UUID.randomUUID().toString();
 
         loginFamilyMember.setExpire(System.currentTimeMillis() + EXPIRE_HALF_HOUR);
         loginFamilyMember.setToken(token);
+        loginFamilyMember.setSource(source);
         if (singleFlag) {
-            loginMembers.values().stream().filter(m -> m.getAccount().equals(familymember.getAccount())).map(LoginFamilyMember::getToken).collect(Collectors.toList()).forEach(t -> {
-                LOGGER.info("MemeryTokenManger-createTokenWithSingleFlag:account[{}]成功移除其他的token[{}]!对应成员[{}]", loginFamilyMember.getAccount(), t, loginFamilyMember.getName());
+            loginMembers.values().stream()
+                    .filter(m -> m.getAccount().equals(familymember.getAccount()) && source.equals(m.getSource()))
+                    .map(LoginFamilyMember::getToken).collect(Collectors.toList()).forEach(t -> {
+                LOGGER.info("MemeryTokenManger-createTokenWithSingleFlag:account[{}]成功移除相同source[{}]的其他的token[{}]!对应成员[{}]", loginFamilyMember.getAccount(), source, t, loginFamilyMember.getName());
                 loginMembers.remove(t);
             });
         }
-        LOGGER.info("MemeryTokenManger-createTokenWithSingleFlag:account[{}],成功创建token[{}]!对应成员[{}]", loginFamilyMember.getAccount(), token, loginFamilyMember.getName());
+        LOGGER.info("MemeryTokenManger-createTokenWithSingleFlag:account[{}],source[{}],成功创建token[{}]!对应成员[{}]", loginFamilyMember.getAccount(), source, token, loginFamilyMember.getName());
         loginMembers.put(token, loginFamilyMember);
         return token;
     }

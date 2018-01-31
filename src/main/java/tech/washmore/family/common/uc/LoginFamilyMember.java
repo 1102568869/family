@@ -13,12 +13,21 @@ import tech.washmore.family.model.Familymember;
 public class LoginFamilyMember extends Familymember {
     private long expire;
     private String token;
+    private String source;
 
     public LoginFamilyMember() {
     }
 
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
     public LoginFamilyMember(Familymember familymember) {
-        BeanUtils.copyProperties(familymember,this);
+        BeanUtils.copyProperties(familymember, this);
     }
 
     public String getToken() {
