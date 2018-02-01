@@ -1,7 +1,7 @@
 # family
 家庭小账本啦啦啦
 
-srpingboot+vue2.js+elementui
+srpingboot+vue2.js+elementui+微信小程序
 
 ### Quick start
 **Make sure you have Node version >= 5.0 and NPM >= 3 and Maven>=3** 
