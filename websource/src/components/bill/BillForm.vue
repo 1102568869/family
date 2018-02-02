@@ -29,7 +29,9 @@
             <el-select v-model="bill.tagIds"
                        multiple
                        allow-create
+                       remote
                        filterable
+                       :remote-method="inputTag"
                        default-first-option
                        placeholder="请选择" style="width: 100%;">
                 <el-option
@@ -78,7 +80,6 @@
         name: 'BillForm',
         componentName: 'BillForm',
         created() {
-            this.getTop10Tags();
             this.getTypes();
             this.getMembers();
             this.getBalanceTypes();
@@ -89,9 +90,18 @@
                 types: [],
                 members: [],
                 balanceTypes: [],
+                firstload: true,
+                timeouthandle: 0,
             }
         },
-
+        watch: {
+            bill: function (newV, oldV) {
+                if (this.firstload && oldV.id == null && newV.id != null) {
+                    ajaxGet(apis._billtag_get_tags + "?billId=" + this.bill.id, (data) => this.tags = data);
+                    this.firstload = false;
+                }
+            },
+        },
         methods: {
             getTypes() {
                 ajaxGet(apis._billtype_get_all, (data) => this.types = data);
@@ -102,9 +112,15 @@
             getBalanceTypes() {
                 ajaxGet(apis._bill_get_balanceTypes, (data) => this.balanceTypes = data);
             },
-            getTop10Tags() {
-                ajaxGet(apis._billtag_get_top10, (data) => this.tags = data);
-            }
+            inputTag(q) {
+                var vm = this;
+                if (q != '') {
+                    clearTimeout(vm.timeouthandle);
+                    vm.timeouthandle = setTimeout(function () {
+                        ajaxGet(apis._billtag_get_top_query + "?keyword=" + q, (data) => vm.tags = data);
+                    }, 500);
+                }
+            },
         }
     }
 </script>

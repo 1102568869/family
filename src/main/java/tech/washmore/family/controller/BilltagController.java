@@ -41,7 +41,23 @@ public class BilltagController {
         if (CollectionUtils.isEmpty(billtags)) {
             return new ArrayList<>();
         }
-        return billtags.stream().sorted(Comparator.comparing(Billtag::getId).reversed()).filter(StreamUtil.distinctByKey(Billtag::getId)).collect(Collectors.toList());
+        return billtags.stream().sorted(Comparator.comparing(Billtag::getId).reversed()).filter(StreamUtil.distinctByKey(Billtag::getId)).limit(5).collect(Collectors.toList());
+    }
+
+    /**
+     * @summary 查询所有的?标签列表,起的啥名...
+     * TODO 这里还没想好如何只推10条,以及一个bill如果超过了10条该怎么推?
+     * @version V1.0
+     * @author Washmore
+     * @since 2018/1/15
+     */
+    @GetMapping("/get/top/query")
+    public List<Billtag> topQuery(@RequestParam(defaultValue = "") String keyword, @RequestParam(defaultValue = "10") int top) {
+        List<Billtag> billtags = billtagService.getTopBilltagsByKeyword(keyword, top);
+        if (CollectionUtils.isEmpty(billtags)) {
+            return new ArrayList<>();
+        }
+        return billtags;
     }
 
 

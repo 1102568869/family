@@ -92,7 +92,7 @@ Page({
     }
     wx.showNavigationBarLoading();
     this.setData({ isloading: true });
-    ajaxGet(apis._bill_get_page + '?pageNo=' + this.data.pageNo + '&pageSize=' + this.data.pageSize, (data) => {
+    ajaxGet(apis._bill_get_page_v2 + '?pageNo=' + this.data.pageNo + '&pageSize=' + this.data.pageSize, (data) => {
       let more = this.data.list;
       for (var k in data.list) {
         more.push(data.list[k]);

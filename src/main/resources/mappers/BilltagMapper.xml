@@ -3,18 +3,29 @@
 <mapper namespace="BilltagMapper">
     <select id="findBilltagsByParams" resultType="billtag" parameterType="hashmap">
         SELECT tag.* FROM billtag tag
-        LEFT JOIN billwithtags bt on bt.tag = tag.id
+        LEFT JOIN (
+        SELECT tag ,count(tag) AS tagCount FROM billwithtags GROUP BY tag
+        ) tc ON tag.id = tc.tag
         <where>
             <if test="@Ognl@isNotEmpty(id)">
                 AND tag.id = #{id}
             </if>
             <if test="@Ognl@isNotEmpty(billId)">
-                AND bt.bill = #{billId}
+                AND tag.id in (
+                SELECT DISTINCT tag FROM billwithtags WHERE bill = #{billId}
+                )
             </if>
             <if test="@Ognl@isNotEmpty(name)">
                 AND tag.name = #{name}
             </if>
+            <if test="@Ognl@isNotEmpty(keyword)">
+                AND tag.name LIKE CONCAT( #{keyword}, '%')
+            </if>
         </where>
+        ORDER BY tagCount DESC
+        <if test="@Ognl@isNotEmpty(offset)">
+            LIMIT 0,${offset}
+        </if>
     </select>
     <insert id="addBilltag" parameterType="billtag" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO billtag (name, comment)

@@ -17,7 +17,13 @@ public class BillView extends Bill {
     private List tagIds = new ArrayList<>();
 
     public List getTagIds() {
-        return tagIds;
+        if (CollectionUtils.isNotEmpty(this.tagIds)) {
+            return this.tagIds;
+        }
+        if (CollectionUtils.isNotEmpty(this.tags)) {
+            this.tagIds = this.tags.stream().map(Billtag::getId).collect(Collectors.toList());
+        }
+        return this.tagIds;
     }
 
     public void setTagIds(List tagIds) {
@@ -30,9 +36,6 @@ public class BillView extends Bill {
 
     public void setTags(List<Billtag> tags) {
         this.tags = tags;
-        if (CollectionUtils.isNotEmpty(tags)) {
-            this.tagIds = tags.stream().map(Billtag::getId).collect(Collectors.toList());
-        }
     }
 
     public String getBalanceName() {
