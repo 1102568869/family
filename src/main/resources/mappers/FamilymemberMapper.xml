@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="FamilymemberMapper">
     <select id="findFamilymembersByParams" resultType="familymember" parameterType="hashmap">
-        SELECT id, account, name, mobile, email, qq, image , openId FROM family.familymember
+        SELECT id, account, name, mobile, email, qq, image , openId FROM familymember
         <where>
             <if test="@Ognl@isNotEmpty(id)">
                 AND id = #{id}
@@ -19,14 +19,14 @@
         </where>
     </select>
     <insert id="addFamilymember" parameterType="familymember">
-        INSERT INTO family.familymember
+        INSERT INTO familymember
         (account, name, password, mobile, email,
          qq, creator, creatAt, updater, updateAt, image)
         VALUES (#{account}, #{name}, password('123456'), #{mobile}, #{email},
                             #{qq}, #{creator}, now(), #{updater}, now(), #{image})
     </insert>
     <update id="updateFamilymember" parameterType="familymember">
-        UPDATE family.familymember
+        UPDATE familymember
         <set>
             <if test="@Ognl@isNotEmpty(name)">
                 name = #{name},
@@ -48,7 +48,7 @@
         WHERE id = #{id}
     </update>
     <update id="changePassword" parameterType="familymember">
-        UPDATE family.familymember
+        UPDATE familymember
         SET password = password(#{password})
         WHERE id = #{id}
     </update>

@@ -30,4 +30,8 @@ public class BillDao extends BaseDao {
     public int deleteBill(int id) {
         return super.getSqlSession().update("deleteBill", ImmutableMap.of("id", id));
     }
+
+    public Integer countBillsByParams(Map<String, Object> params) {
+        return super.getSqlSession().selectOne("countBillsByParams", params);
+    }
 }

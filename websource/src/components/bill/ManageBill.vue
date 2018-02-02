@@ -106,7 +106,7 @@
             searchPage() {
                 this.loading = true;
                 console.info('searchPage', 'this.params.pageNo', this.params.pageNo);
-                ajaxGet(apis._bill_get_page + '?pageSize=' + this.params.pageSize + '&pageNo=' + this.params.pageNo, (data) => {
+                ajaxGet(apis._bill_get_page_v2 + '?pageSize=' + this.params.pageSize + '&pageNo=' + this.params.pageNo, (data) => {
                     this.page = data;
                     this.loading = false;
                 }, (e) => {

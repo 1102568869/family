@@ -10,10 +10,12 @@
         </where>
         ORDER BY recordtime DESC
     </select>
+
     <insert id="addBill" parameterType="bill" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO bill (name, type, money, balance, member, recordtime, comment)
         VALUES (#{name}, #{type}, #{money}, #{balance}, #{member}, #{recordtime}, #{comment})
     </insert>
+
     <update id="updateBill" parameterType="bill">
         UPDATE bill
         SET name       = #{name}, type = #{type}, money = #{money},
@@ -21,18 +23,76 @@
             recordtime = #{recordtime}, comment = #{comment}
         WHERE id = #{id}
     </update>
+
     <delete id="deleteBill" parameterType="hashmap">
-        DELETE FROM bill WHERE id = #{id}
+        DELETE FROM bill
+        WHERE id = #{id}
     </delete>
-    <select id="findBillViewsByParams" resultType="billView" parameterType="hashmap">
-        SELECT b.*,m.name AS memberName,t.name AS typeName FROM bill b
+
+    <select id="findBillViewsByParams" resultMap="billViewEx" parameterType="hashmap">
+        SELECT
+        b.*
+        ,bwt.*
+        ,bt.name AS tagName
+        ,bt.id AS tagId
+        ,bt.comment AS tagComment
+        ,m.name AS memberName
+        ,t.name AS typeName
+        FROM bill b
+        LEFT JOIN billwithtags bwt ON b.id = bwt.bill
+        LEFT JOIN billtag bt ON bt.id = bwt.tag
         LEFT JOIN familymember m ON b.member = m.id
         LEFT JOIN billtype t ON b.type = t.id
+        WHERE b.id in (
+            SELECT id FROM (
+                SELECT b.id FROM bill b
+                <include refid="pageCondition"/>
+                <if test="@Ognl@isNotEmpty(orderBy)">
+                    ORDER BY ${orderBy}
+                </if>
+                <if test="@Ognl@isEmpty(orderBy)">
+                    ORDER BY recordtime DESC
+                </if>
+                <if test="@Ognl@isNotEmpty(start) and @Ognl@isNotEmpty(offset)">
+                    limit #{start} ,#{offset}
+                </if>
+            ) as temp
+        )
+    </select>
+
+    <select id="countBillsByParams" resultType="int" parameterType="hashmap">
+        SELECT COUNT(*)
+        FROM bill b
+        <include refid="pageCondition"/>
+    </select>
+
+    <sql id="pageCondition">
         <where>
             <if test="id != null">
                 AND b.id = #{id}
             </if>
+            <if test="@Ognl@isNotEmpty(type)">
+                AND b.type = #{type}
+            </if>
+            <if test="@Ognl@isNotEmpty(member)">
+                AND b.member = #{member}
+            </if>
+            <if test="@Ognl@isNotEmpty(tagIds)">
+                AND b.id in (
+                SELECT DISTINCT bill FROM billwithtags WHERE tag IN
+                <foreach collection="tagIds" item="tag" open="(" close=")" separator=",">
+                    #{tag}
+                </foreach>
+                )
+            </if>
         </where>
-        ORDER BY recordtime DESC
-    </select>
+    </sql>
+    <resultMap id="billViewEx" type="billView">
+        <id column="id" property="id"/>
+        <collection property="tags" ofType="tech.washmore.family.model.Billtag">
+            <id property="id" column="tagId"/>
+            <id property="name" column="tagName"/>
+            <id property="comment" column="tagComment"/>
+        </collection>
+    </resultMap>
 </mapper>

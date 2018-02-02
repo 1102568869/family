@@ -1,13 +1,12 @@
 package tech.washmore.family.controller;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import tech.washmore.family.common.Constants;
 import tech.washmore.family.common.enums.BalanceType;
-import tech.washmore.family.model.Billtag;
 import tech.washmore.family.model.Page;
 import tech.washmore.family.model.view.BillView;
 import tech.washmore.family.service.BillService;
@@ -86,11 +85,39 @@ public class BillController {
     @GetMapping("/get/page")
     public Page<BillView> getPage(@RequestParam(defaultValue = "10") int pageSize,
                                   @RequestParam(defaultValue = "1") int pageNo) {
-        Page<BillView> page = PageUtil.fillPage(billService.getAllBillViews(), pageSize, pageNo);
-        page.getList().forEach(b -> {
-            b.setTags(billtagService.getBilltagsByBillId(b.getId()));
-        });
-        return page;
+        return PageUtil.fillMomeryPage(billService.getAllBillViews(), pageSize, pageNo);
+    }
+
+    /**
+     * @summary 分页查询账单
+     * @version V2.0
+     * @author Washmore
+     * @since 2018/2/2
+     */
+    @GetMapping("/get/page/v2")
+    public Page<BillView> getPageV2(@RequestParam(defaultValue = "10") int pageSize,
+                                    @RequestParam(defaultValue = "1") int pageNo,
+                                    @RequestParam(required = false) Integer memberId,
+                                    @RequestParam(required = false) Integer typeId,
+                                    @RequestParam(required = false) List<Integer> tagIds
+    ) {
+        return billService.getBillViewsPage(pageSize, pageNo, memberId, typeId, tagIds);
+    }
+
+    /**
+     * @summary 分页查询登录人的账单
+     * @version V1.0
+     * @author Washmore
+     * @since 2018/2/2
+     */
+    @GetMapping("/get/page/mine")
+    public Page<BillView> getMyPage(@RequestParam(defaultValue = "10") int pageSize,
+                                    @RequestParam(defaultValue = "1") int pageNo,
+                                    @RequestAttribute(Constants.REQUEST_MEMBER_ID) Integer memberId,
+                                    @RequestParam(required = false) Integer typeId,
+                                    @RequestParam(required = false) List<Integer> tagIds
+    ) {
+        return billService.getBillViewsPage(pageSize, pageNo, memberId, typeId, tagIds);
     }
 
     /**
@@ -101,13 +128,7 @@ public class BillController {
      */
     @GetMapping("/get/item")
     public BillView getBillView(@RequestParam int id) {
-        BillView bill = billService.getBillViewById(id);
-        List<Billtag> tags = billtagService.getBilltagsByBillId(id);
-        if (CollectionUtils.isNotEmpty(tags)) {
-            //bill.setTags(tags);
-            bill.setTagIds(tags.stream().map(Billtag::getId).collect(Collectors.toList()));
-        }
-        return bill;
+        return billService.getBillViewById(id);
     }
 
 

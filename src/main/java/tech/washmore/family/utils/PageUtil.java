@@ -11,14 +11,20 @@ import java.util.List;
 /**
  * @author Washmore
  * @version V1.0
- * @summary TODO
+ * @summary Page辅助类
  * @Copyright (c) 2018, Lianjia Group All Rights Reserved.
  * @since 2018/1/15
  */
 
 public class PageUtil {
-
-    public static Page fillPage(List list, int pageSize, int pageNo) {
+    /**
+     * @summary 内存分页, 不推荐使用!
+     * @version V1.0
+     * @author Washmore
+     * @since 2018/2/2
+     */
+    @Deprecated
+    public static Page fillMomeryPage(List list, int pageSize, int pageNo) {
         Page<Bill> page = new Page<>();
         page.setPageNo(pageNo);
         page.setPageSize(pageSize);
@@ -27,5 +33,12 @@ public class PageUtil {
         return page;
     }
 
-
+    public static Page fillPage(List list, int total, int pageSize, int pageNo) {
+        Page<Bill> page = new Page<>();
+        page.setPageNo(pageNo);
+        page.setPageSize(pageSize);
+        page.setTotalCount(total);
+        page.setList(list);
+        return page;
+    }
 }
