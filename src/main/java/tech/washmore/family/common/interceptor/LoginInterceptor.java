@@ -29,7 +29,11 @@ public class LoginInterceptor extends BaseInterceptor implements HandlerIntercep
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object o) throws Exception {
-        LOGGER.info("--login check begin:[{}],ip:[{}]", request.getRequestURI(), request.getRemoteAddr());
+        String remoteIP = request.getHeader(Constants.X_REAL_IP);
+        if (StringUtils.isBlank(remoteIP)) {
+            remoteIP = request.getRemoteAddr();
+        }
+        LOGGER.info("--login check begin:[{}],ip:[{}]", request.getRequestURI(), remoteIP);
 
         //禁止保留参数名传入
         Object memberAccount = request.getAttribute(Constants.REQUEST_MEMBER_ACCOUNT);
@@ -61,7 +65,7 @@ public class LoginInterceptor extends BaseInterceptor implements HandlerIntercep
             request.setAttribute(Constants.REQUEST_MEMBER_ACCOUNT, loginFamilyMember.getAccount());
             request.setAttribute(Constants.REQUEST_MEMBER_ID, loginFamilyMember.getId());
 
-            LOGGER.info("--login check success:[{}],ip:[{}],userName:[{}],userAccount:[{}]", request.getRequestURI(), request.getRemoteAddr(), loginFamilyMember.getName(), loginFamilyMember.getAccount());
+            LOGGER.info("--login check success:[{}],ip:[{}],userName:[{}],userAccount:[{}]", request.getRequestURI(), remoteIP, loginFamilyMember.getName(), loginFamilyMember.getAccount());
             return true;
         }
         LOGGER.warn("token为空,登录失败!");

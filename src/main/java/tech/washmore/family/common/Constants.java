@@ -9,6 +9,10 @@ package tech.washmore.family.common;
  */
 public class Constants {
     /**
+     * 兼容Nginx转发时获取真实IP
+     */
+    public static final String X_REAL_IP = "X-Real-IP";
+    /**
      * request中用于身份识别的key
      */
     public static final String COOKIE_TOKEN_KEY = "family_token";
