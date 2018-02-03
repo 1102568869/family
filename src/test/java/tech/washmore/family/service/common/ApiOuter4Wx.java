@@ -32,7 +32,7 @@ public class ApiOuter4Wx extends BaseTest {
     public void testOne() throws Exception {
         StringBuffer sb = new StringBuffer("");
         sb.append("const HOST = 'http://localhost:8888';\n");
-        sb.append("//const HOST = 'http://washmore.hellofqs.com';\n");
+        sb.append("//const HOST = 'https://washmore.hellofqs.com';\n");
         sb.append("export default {\n");
         Map<RequestMappingInfo, HandlerMethod> map = this.handlerMapping.getHandlerMethods();
         Iterator<?> iterator = map.entrySet().iterator();
