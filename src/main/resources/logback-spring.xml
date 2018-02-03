@@ -44,6 +44,21 @@
             <onMismatch>NEUTRAL</onMismatch>
         </filter>
     </appender>
+    <appender name="LOGINRECORD" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- encoder 默认配置为PatternLayoutEncoder -->
+        <encoder>
+            <pattern>${log_pattern}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logDir}/%d{YYYYMMdd}/loginRecordLog.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>NEUTRAL</onMismatch>
+        </filter>
+    </appender>
 
     <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- encoder 默认配置为PatternLayoutEncoder -->
@@ -76,6 +91,10 @@
         <logger name="dao" level="DEBUG"/>
         <logger name="tech.washmore.family.common.uc.MemeryTokenManger" level="INFO" additivity="false">
             <appender-ref ref="TOKEN"/>
+            <appender-ref ref="STDOUT"/>
+        </logger>
+        <logger name="tech.washmore.family.common.interceptor" level="INFO" additivity="false">
+            <appender-ref ref="LOGINRECORD"/>
             <appender-ref ref="STDOUT"/>
         </logger>
     </springProfile>

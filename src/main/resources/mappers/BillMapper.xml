@@ -58,6 +58,12 @@
                 </if>
             ) as temp
         )
+        <if test="@Ognl@isNotEmpty(orderBy)">
+            ORDER BY ${orderBy}
+        </if>
+        <if test="@Ognl@isEmpty(orderBy)">
+            ORDER BY recordtime DESC
+        </if>
     </select>
 
     <select id="countBillsByParams" resultType="int" parameterType="hashmap">
