@@ -6,7 +6,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
-import tech.washmore.BaseTest;
+import base.BaseTest;
 import tech.washmore.family.FamilyStarter;
 
 import java.io.File;

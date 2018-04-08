@@ -2,7 +2,7 @@ package tech.washmore.family.service;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import tech.washmore.BaseTest;
+import base.BaseTest;
 
 
 /**
