@@ -5,7 +5,7 @@
 target/
 logs/
 *.iml
-#src/main/resources/application.properties
+src/main/resources/application.properties
 src/main/resources/generatorConfig.xml
 /src/main/resources/pages/
 /websource/node_modules/
