@@ -16,7 +16,7 @@
     id, name, remark, creator, create_name, create_time, updater, update_name, update_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from book_bill_type
     where id = #{id,jdbcType=BIGINT}
@@ -26,16 +26,16 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="tech.washmore.family.v2.model.BookBillType" >
-    insert into book_bill_type (id, name, remark, 
-      creator, create_name, create_time, 
+    insert into book_bill_type (id, name, remark,
+      creator, create_name, create_time,
       updater, update_name, update_time
       )
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
-      #{creator,jdbcType=BIGINT}, #{createName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+      #{creator,jdbcType=BIGINT}, #{createName,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP},
       #{updater,jdbcType=BIGINT}, #{updateName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="tech.washmore.family.v2.model.BookBillType" >
+  <insert id="insertSelective" parameterType="tech.washmore.family.v2.model.BookBillType" keyProperty="id">
     insert into book_bill_type
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
