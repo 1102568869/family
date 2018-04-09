@@ -19,6 +19,8 @@ public class BookBill {
 
     private Date time;
 
+    private Integer flagDelete;
+
     private Long creator;
 
     private String createName;
@@ -93,6 +95,14 @@ public class BookBill {
 
     public void setTime(Date time) {
         this.time = time;
+    }
+
+    public Integer getFlagDelete() {
+        return flagDelete;
+    }
+
+    public void setFlagDelete(Integer flagDelete) {
+        this.flagDelete = flagDelete;
     }
 
     public Long getCreator() {

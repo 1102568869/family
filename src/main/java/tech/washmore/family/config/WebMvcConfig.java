@@ -26,36 +26,6 @@ import java.util.concurrent.TimeUnit;
 @ConditionalOnWebApplication
 public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
-    private CorsConfiguration buildConfig() {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.addAllowedOrigin("http://localhost:8088");
-        corsConfiguration.addAllowedOrigin("http://localhost:8080");
-        corsConfiguration.addAllowedOrigin("http://127.0.0.1:8080");
-
-        corsConfiguration.addAllowedOrigin("*");
-
-        corsConfiguration.addAllowedHeader("*");
-        corsConfiguration.addAllowedMethod("*");
-        corsConfiguration.setAllowCredentials(true);
-        return corsConfiguration;
-    }
-
-
-    /**
-     * @summary 支持跨域请求的配置,
-     * NOTICE:注意此配置仅适用于开发环境前端调试!!!请确保通过某种手段在生产环境强制覆盖掉spring.profiles.active以保证使此配置失效
-     * @version V1.0
-     * @author Washmore
-     * @since 2018/1/15
-     */
-    @Bean
-    @Profile("development")
-    public CorsFilter corsFilter() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", buildConfig());
-        return new CorsFilter(source);
-    }
-
     /**
      * @summary 静态资源处理器
      * @version V1.0

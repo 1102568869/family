@@ -35,7 +35,6 @@ public class BaseExceptionHandler {
             response.setCharacterEncoding(Charsets.UTF_8.toString());
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.setContentType(MediaType.APPLICATION_JSON_UTF8.toString());
-            response.setHeader("Access-Control-Allow-Origin", "http://localhost:8088");
             response.getWriter().print(JSON.toJSONString(ImmutableMap.of("message", e.getMessage())));
         } catch (Exception e1) {
             logger.error("在BaseExceptionHandler遇到异常", e1);

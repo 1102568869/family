@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tech.washmore.family.v2.dao.BookBillMapper">
+
+    <select id="selectByParams" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from book_bill
+        <where>
+            <if test="@Ognl@isNotEmpty(id)">
+                AND id = #{id}
+            </if>
+            <if test="@Ognl@isNotEmpty(name)">
+                AND name = #{name}
+            </if>
+            <if test="@Ognl@isNotEmpty(balance)">
+                AND balance = #{balance}
+            </if>
+            <if test="@Ognl@isNotEmpty(keyword)">
+            </if>
+            <if test="@Ognl@isNotEmpty(flagDelete)">
+                AND flag_delete = #{flagDelete}
+            </if>
+            <if test="@Ognl@isEmpty(flagDelete)">
+                AND flag_delete = 0
+            </if>
+        </where>
+        ORDER BY update_time DESC
+        <if test="@Ognl@isNotEmpty(start) and @Ognl@isNotEmpty(offset)">
+            LIMIT #{start} ,#{offset}
+        </if>
+    </select>
+
+    <resultMap id="BaseResultMap" type="tech.washmore.family.v2.model.BookBill">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="type_id" jdbcType="BIGINT" property="typeId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="balance" jdbcType="INTEGER" property="balance"/>
+        <result column="money" jdbcType="DOUBLE" property="money"/>
+        <result column="user_code" jdbcType="BIGINT" property="userCode"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <result column="time" jdbcType="TIMESTAMP" property="time"/>
+        <result column="flag_delete" jdbcType="INTEGER" property="flagDelete"/>
+        <result column="creator" jdbcType="BIGINT" property="creator"/>
+        <result column="create_name" jdbcType="VARCHAR" property="createName"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="updater" jdbcType="BIGINT" property="updater"/>
+        <result column="update_name" jdbcType="VARCHAR" property="updateName"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, type_id, name, balance, money, user_code, user_name, time, flag_delete, creator,
+        create_name, create_time, updater, update_name, update_time
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from book_bill
+        where id = #{id,jdbcType=BIGINT}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        DELETE FROM book_bill
+        WHERE id = #{id,jdbcType=BIGINT}
+    </delete>
+    <insert id="insert" parameterType="tech.washmore.family.v2.model.BookBill">
+        INSERT INTO book_bill (id, type_id, name,
+                               balance, money, user_code,
+                               user_name, time, flag_delete,
+                               creator, create_name, create_time,
+                               updater, update_name, update_time
+        )
+        VALUES (#{id,jdbcType=BIGINT}, #{typeId,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
+                                       #{balance,jdbcType=INTEGER}, #{money,jdbcType=DOUBLE},
+                                       #{userCode,jdbcType=BIGINT},
+                                       #{userName,jdbcType=VARCHAR}, #{time,jdbcType=TIMESTAMP},
+                                       #{flagDelete,jdbcType=INTEGER},
+                                       #{creator,jdbcType=BIGINT}, #{createName,jdbcType=VARCHAR},
+                #{createTime,jdbcType=TIMESTAMP},
+                #{updater,jdbcType=BIGINT}, #{updateName,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="tech.washmore.family.v2.model.BookBill">
+        insert into book_bill
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="typeId != null">
+                type_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="balance != null">
+                balance,
+            </if>
+            <if test="money != null">
+                money,
+            </if>
+            <if test="userCode != null">
+                user_code,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="time != null">
+                time,
+            </if>
+            <if test="flagDelete != null">
+                flag_delete,
+            </if>
+            <if test="creator != null">
+                creator,
+            </if>
+            <if test="createName != null">
+                create_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updater != null">
+                updater,
+            </if>
+            <if test="updateName != null">
+                update_name,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=BIGINT},
+            </if>
+            <if test="typeId != null">
+                #{typeId,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="balance != null">
+                #{balance,jdbcType=INTEGER},
+            </if>
+            <if test="money != null">
+                #{money,jdbcType=DOUBLE},
+            </if>
+            <if test="userCode != null">
+                #{userCode,jdbcType=BIGINT},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null">
+                #{time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="flagDelete != null">
+                #{flagDelete,jdbcType=INTEGER},
+            </if>
+            <if test="creator != null">
+                #{creator,jdbcType=BIGINT},
+            </if>
+            <if test="createName != null">
+                #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updater != null">
+                #{updater,jdbcType=BIGINT},
+            </if>
+            <if test="updateName != null">
+                #{updateName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="tech.washmore.family.v2.model.BookBill">
+        update book_bill
+        <set>
+            <if test="typeId != null">
+                type_id = #{typeId,jdbcType=BIGINT},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="balance != null">
+                balance = #{balance,jdbcType=INTEGER},
+            </if>
+            <if test="money != null">
+                money = #{money,jdbcType=DOUBLE},
+            </if>
+            <if test="userCode != null">
+                user_code = #{userCode,jdbcType=BIGINT},
+            </if>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="time != null">
+                time = #{time,jdbcType=TIMESTAMP},
+            </if>
+            <if test="flagDelete != null">
+                flag_delete = #{flagDelete,jdbcType=INTEGER},
+            </if>
+            <if test="creator != null">
+                creator = #{creator,jdbcType=BIGINT},
+            </if>
+            <if test="createName != null">
+                create_name = #{createName,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updater != null">
+                updater = #{updater,jdbcType=BIGINT},
+            </if>
+            <if test="updateName != null">
+                update_name = #{updateName,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="tech.washmore.family.v2.model.BookBill">
+        UPDATE book_bill
+        SET type_id     = #{typeId,jdbcType=BIGINT},
+            name        = #{name,jdbcType=VARCHAR},
+            balance     = #{balance,jdbcType=INTEGER},
+            money       = #{money,jdbcType=DOUBLE},
+            user_code   = #{userCode,jdbcType=BIGINT},
+            user_name   = #{userName,jdbcType=VARCHAR},
+            time        = #{time,jdbcType=TIMESTAMP},
+            flag_delete = #{flagDelete,jdbcType=INTEGER},
+            creator     = #{creator,jdbcType=BIGINT},
+            create_name = #{createName,jdbcType=VARCHAR},
+            create_time = #{createTime,jdbcType=TIMESTAMP},
+            updater     = #{updater,jdbcType=BIGINT},
+            update_name = #{updateName,jdbcType=VARCHAR},
+            update_time = #{updateTime,jdbcType=TIMESTAMP}
+        WHERE id = #{id,jdbcType=BIGINT}
+    </update>
+
+</mapper>

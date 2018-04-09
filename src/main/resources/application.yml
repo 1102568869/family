@@ -7,39 +7,55 @@ server:
     mime-types: application/json,application/javascript,text/html,text/xml,text/plain,text/css
   port: 8888
 
-#激活配置文件
-spring.profiles.active: development
-
-#thymeleaf
-spring.thymeleaf:
-   cache: false # Enable template caching.
-   check-template-location: true # Check that the templates location exists.
-   content-type: text/html # Content-Type value.
-   enabled: true # Enable MVC Thymeleaf view resolution.
-   encoding: UTF-8 # Template encoding.
-   mode: LEGACYHTML5 # Template mode to be applied to templates. See also StandardTemplateModeHandlers.
-   prefix: "classpath:/pages" # Prefix that gets prepended to view names when building a URL.
-   suffix: ".html"  # Suffix that gets appended to view names when building a URL.
-
 spring.http.converters.preferred-json-mapper: fastjson
+
 # 等同logback-spring.xml里面的配置
 logging.level.org.apache.ibatis: debug
 
 spring:
+  #激活配置文件
+  profiles.active: development
+  #前端模板引擎
+  thymeleaf:
+     cache: false # Enable template caching.
+     check-template-location: true # Check that the templates location exists.
+     content-type: text/html # Content-Type value.
+     enabled: true # Enable MVC Thymeleaf view resolution.
+     encoding: UTF-8 # Template encoding.
+     mode: LEGACYHTML5 # Template mode to be applied to templates. See also StandardTemplateModeHandlers.
+     prefix: "classpath:/pages" # Prefix that gets prepended to view names when building a URL.
+     suffix: ".html"  # Suffix that gets appended to view names when building a URL.
+  #数据库配置
   datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    #url: 数据库连接
+    #username: 数据库帐号
+    #password: 数据库密码
     tomcat:
-      driver-class-name: com.mysql.jdbc.Driver
-      max-idle: 10
-      min-idle: 5
       initial-size: 5
-      max-wait: 30
-      max-active: 10
-      validationQuery: SELECT 1;
-      testOnBorrow: true
+      max-active: 50
+      max-idle: 30
+      min-idle: 5
       test-while-idle: true
-      #url: 数据库连接
-      #username: 数据库帐号
-      #password: 数据库密码
+      validation-query-timeout: 1
+      validation-interval: 30000
+      time-between-eviction-runs-millis: 10000
+      default-auto-commit: true
+      jmx-enabled: true
+      jdbc-interceptors: QueryTimeoutInterceptor(queryTimeout=30);SlowQueryReport(threshold=3000)
+      validation-query: SELECT 1
+
+
+#Mybatis配置,替代xml文件
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-prefix: dao.
+    logImpl: STDOUT_LOGGING
+    useGeneratedKeys: true
+    autoMappingBehavior: full
+  type-aliases-package: tech.washmore.family.model
+  mapper-locations: classpath*:mappers/v2/*.xml
 
 wx:
   #appid: 小程序Id

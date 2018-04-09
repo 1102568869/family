@@ -2,6 +2,7 @@ package tech.washmore.family.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+
 /**
  * @author Washmore
  * @version V1.0
@@ -15,5 +16,10 @@ public class WelcomeController {
     @GetMapping({"/", ""})
     public String welcome() {
         return "/index";
+    }
+
+    @GetMapping("/v2")
+    public String welcomeV2() {
+        return "/v2/index";
     }
 }
