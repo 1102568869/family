@@ -21,5 +21,7 @@ export default {
     _login4Wx: '/login4Wx',
     _verifyToken: '/verifyToken',
     _verifyPassword: '/verifyPassword',
-    _: '/'
+    _v2: '/v2',
+    _: '/',
+    _userlogin_webpc: '/userlogin/webpc'
 }

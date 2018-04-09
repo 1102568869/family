@@ -36,7 +36,7 @@ public class BookBillTypeServiceTest extends BaseTest {
     public void testAddBookBillType() throws Exception {
         //TODO: Test goes here...
         BookBillType billType = new BookBillType();
-        billType.setName("出行");
+        billType.setName("娱乐");
         billType.setCreator(1L);
         billType.setCreateName("陈雨清");
         billType.setCreateTime(new Date());

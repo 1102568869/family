@@ -1,10 +1,11 @@
-package tech.washmore.family.common;
+package tech.washmore.family.v2.common.filter;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
@@ -15,8 +16,8 @@ import java.io.IOException;
  * @Copyright (c) 2018, Lianjia Group All Rights Reserved.
  * @since 2018/4/9
  */
-@WebFilter(urlPatterns = "/*")
 @Component
+@WebFilter(urlPatterns = "/*")
 public class CrossFilter implements Filter {
     @Value("${spring.profiles.active:}")
     private String env;

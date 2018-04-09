@@ -38,7 +38,7 @@ public class DataSourceConfig {
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         factory.setConfigLocation(resolver.getResource("config/mybatis-config.xml"));
         try {
-            factory.setMapperLocations(resolver.getResources("mappers/*.xml"));
+            factory.setMapperLocations(resolver.getResources("mappers/**/*.xml"));
         } catch (IOException e) {
             e.printStackTrace();
         }

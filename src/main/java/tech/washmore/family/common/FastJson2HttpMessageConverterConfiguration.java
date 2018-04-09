@@ -29,7 +29,7 @@ import java.util.Arrays;
         havingValue = "fastjson",
         matchIfMissing = true
 )
-public class FastJson2HttpMessageConverterConfiguration {
+public class  FastJson2HttpMessageConverterConfiguration {
 
     @Bean
     @ConditionalOnMissingBean({FastJsonHttpMessageConverter.class})//3

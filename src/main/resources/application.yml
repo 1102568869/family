@@ -47,15 +47,15 @@ spring:
 
 
 #Mybatis配置,替代xml文件
-mybatis:
-  configuration:
-    map-underscore-to-camel-case: true
-    log-prefix: dao.
-    logImpl: STDOUT_LOGGING
-    useGeneratedKeys: true
-    autoMappingBehavior: full
-  type-aliases-package: tech.washmore.family.model
-  mapper-locations: classpath*:mappers/v2/*.xml
+#mybatis:
+#  configuration:
+#    map-underscore-to-camel-case: true
+#    log-prefix: dao.
+#    logImpl: STDOUT_LOGGING
+#    useGeneratedKeys: true
+#    autoMappingBehavior: full
+#  type-aliases-package: tech.washmore.family.model
+#  mapper-locations: classpath*:mappers/v2/*.xml
 
 wx:
   #appid: 小程序Id

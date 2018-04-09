@@ -58,8 +58,9 @@
                 vm.isSubmitting = true;
                 this.$refs[formName].validate((valid) => {
                     if (valid) {
-                        ajaxPost(apis._login, this.form, (result) => {
-                            if (result===true) {
+                        ajaxPost(apis._userlogin_webpc, this.form, (result) => {
+                            if (result != null && result != "") {
+                                setCookie(consts.token_name, result);
                                 vm.$message({
                                     message: '登陆成功,页面跳转中!',
                                     duration: 1000,
